@@ -95,7 +95,12 @@ export const ScrollButtons: React.FC = () => {
                         onClick={handleClose}
                         aria-label="Close"
                     >
-                        ×
+                        <Image
+                            src="/cross.svg"
+                            alt="Close"
+                            width={50}
+                            height={50}
+                        />
                     </button>
                 </div>
             </div>
