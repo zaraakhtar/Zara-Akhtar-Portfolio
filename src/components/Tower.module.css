@@ -1,0 +1,229 @@
+.towerContainer {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    /* Hide horizontal scrollbar */
+}
+
+.towerWrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    /* Flex layout for centering */
+    justify-content: center;
+    /* Center horizontally */
+    padding-top: 3rem;
+}
+
+@media (min-width: 768px) {
+    .towerWrapper {
+        padding-top: 5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .towerWrapper {
+        padding-top: 0;
+    }
+}
+
+.towerImageContainer {
+    position: relative;
+    width: 100%;
+    max-width: 1440px;
+    min-width: 650px;
+    /* Force minimum width for "zoomed in" look on mobile */
+    flex-shrink: 0;
+    /* Prevent shrinking below min-width */
+}
+
+.towerImage {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Safe positioning - first window (left side) */
+.firstSafe {
+    position: absolute;
+    top: 7.4%;
+    left: 46%;
+    width: 9%;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 10;
+}
+
+.firstSafe:hover {
+    transform: scale(1.05);
+}
+
+/* Safe positioning - second window (left side, lower) */
+.secondSafe {
+    position: absolute;
+    top: 18.5%;
+    left: 36.5%;
+    width: 9%;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 10;
+}
+
+.secondSafe:hover {
+    transform: scale(1.05);
+}
+
+/* Safe positioning - third window (right side) */
+.thirdSafe {
+    position: absolute;
+    top: 29.55%;
+    right: 36.5%;
+    width: 9%;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 10;
+}
+
+.thirdSafe:hover {
+    transform: scale(1.05);
+}
+
+/* Safe positioning - fourth window (left side) */
+.fourthSafe {
+    position: absolute;
+    top: 42.3%;
+    left: 36.5%;
+    width: 9%;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 10;
+}
+
+.fourthSafe:hover {
+    transform: scale(1.05);
+}
+
+/* Safe positioning - fifth window (right side) */
+.fifthSafe {
+    position: absolute;
+    top: 55.4%;
+    right: 36.7%;
+    width: 9%;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 10;
+}
+
+.fifthSafe:hover {
+    transform: scale(1.05);
+}
+
+/* Safe positioning - sixth window (left side) */
+.sixthSafe {
+    position: absolute;
+    top: 66.9%;
+    left: 36.5%;
+    width: 9%;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 10;
+}
+
+.sixthSafe:hover {
+    transform: scale(1.05);
+}
+
+/* Safe positioning - seventh window (right side) */
+.seventhSafe {
+    position: absolute;
+    top: 79.85%;
+    right: 36.7%;
+    width: 9%;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    z-index: 10;
+}
+
+.seventhSafe:hover {
+    transform: scale(1.05);
+}
+
+.safeImage {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.cloud {
+    position: absolute;
+    width: 40%;
+    max-width: 200px;
+    height: auto;
+    pointer-events: none;
+    opacity: 0.9;
+}
+
+/* Clouds behind the tower */
+.cloudBehind {
+    z-index: 0;
+}
+
+/* Clouds in front of the tower */
+.cloudFront {
+    z-index: 20;
+}
+
+/* Ensure tower image is in between (implicit z-index auto is usually 0, but we need it above cloudBehind) */
+/* Actually, children of a stack context are ordered by z-index.
+   towerImageContainer is the context? No, it just has position:relative.
+   So children are stacked.
+   We need towerImage to be z-index: 1.
+*/
+
+.towerImage {
+    width: 100%;
+    height: auto;
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes floatRight {
+    from {
+        left: -25%;
+    }
+
+    to {
+        left: 100%;
+    }
+}
+
+@keyframes floatLeft {
+    from {
+        left: 100%;
+    }
+
+    to {
+        left: -25%;
+    }
+}
+
+.moveRight {
+    animation-name: floatRight;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.moveLeft {
+    animation-name: floatLeft;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
