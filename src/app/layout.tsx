@@ -1,24 +1,33 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Pixelify_Sans } from "next/font/google";
+import { Pixelify_Sans } from "next/font/google";
+import localFont from 'next/font/local';
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const pixelifySans = Pixelify_Sans({
   variable: "--font-pixelify",
   subsets: ["latin"],
 });
 
+const dosVga = localFont({
+  src: [
+    {
+      path: '../../public/fonts/PerfectDOSVGA437Win.woff2',
+      weight: 'normal',
+      style: 'normal',
+    },
+    {
+      path: '../../public/fonts/PerfectDOSVGA437Win.woff',
+      weight: 'normal',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-dos-vga',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
   title: "Zara Akhtar React Native Developer",
+  description: "React Native Developer",
 };
 
 export default function RootLayout({
@@ -27,10 +36,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${pixelifySans.variable} antialiased`}
-      >
+    <html lang="en" className={`${dosVga.variable} ${pixelifySans.variable}`}>
+      <body className="antialiased">
         {children}
       </body>
     </html>

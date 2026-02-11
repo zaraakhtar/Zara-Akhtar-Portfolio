@@ -63,7 +63,7 @@
     transition: all 0.2s ease;
     border: 1px solid #4a4a6a;
     pointer-events: none;
-    font-family: var(--font-pixelify), serif;
+    font-family: var(--font-dos-vga), var(--font-pixelify), monospace;
     /* Thematic font */
     letter-spacing: 0.05em;
 }
@@ -87,13 +87,16 @@
     align-items: center;
     z-index: 1000;
     opacity: 0;
+    visibility: hidden;
+    /* Completely hide from clicks and screen readers */
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: all 0.3s ease;
     backdrop-filter: blur(2px);
 }
 
 .overlay.active {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
 }
 
@@ -107,10 +110,14 @@
     height: auto;
     transform: scale(0.9);
     transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+    /* Only enable clicks on content specifically */
 }
 
 .overlay.active .modalContent {
     transform: scale(1);
+    pointer-events: auto;
+    /* Enable interaction when modal is open */
 }
 
 .openScrollImage {
@@ -132,9 +139,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: var(--font-pixelify), serif;
-    pointer-events: auto;
+    font-family: var(--font-dos-vga), var(--font-pixelify), monospace;
+    pointer-events: none;
+    /* Block clicks by default */
+}
 
+.overlay.active .scrollContent {
+    pointer-events: auto;
+    /* Allow clicks only when open */
 }
 
 .contactTitle {
@@ -209,7 +221,7 @@
     color: #f0e6d2;
     padding: 0.8rem 2rem;
     border-radius: 2rem;
-    font-family: var(--font-pixelify), serif;
+    font-family: var(--font-dos-vga), var(--font-pixelify), monospace;
     z-index: 2000;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     animation: slideUp 0.3s ease-out;
