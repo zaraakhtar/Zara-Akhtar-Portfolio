@@ -3,11 +3,13 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import styles from './ScrollButtons.module.css';
+import { Github, Linkedin, Mail, Phone } from 'lucide-react';
 
 type ScrollType = 'cv' | 'contact' | null;
 
 export const ScrollButtons: React.FC = () => {
     const [openScroll, setOpenScroll] = useState<ScrollType>(null);
+    const [copyStatus, setCopyStatus] = useState(false);
 
     const handleOpen = (type: ScrollType) => {
         setOpenScroll(type);
@@ -19,23 +21,29 @@ export const ScrollButtons: React.FC = () => {
 
     return (
         <>
+            {copyStatus && (
+                <div className={styles.copyNotification}>
+                    Email Copied to Clipboard!
+                </div>
+            )}
             <div className={styles.container}>
-                {/* Top Button: Get CV */}
-                <button
+                {/* Top Button: Get CV (Direct Download) */}
+                <a
+                    href="/React Native Developer CV - Zara Akhtar.pdf"
+                    download="React_Native_Developer_CV_Zara_Akhtar.pdf"
                     className={styles.scrollButton}
                     aria-label="Get CV"
-                    onClick={() => handleOpen('cv')}
                 >
                     <span className={styles.tooltip}>Get CV</span>
                     <Image
                         src="/scrollclosedbutton.svg"
-                        alt="Closed Scroll Menu"
+                        alt="Get CV"
                         width={100}
                         height={100}
                         className={styles.scrollImage}
                         priority
                     />
-                </button>
+                </a>
 
                 {/* Bottom Button: Contact Now */}
                 <button
@@ -82,10 +90,34 @@ export const ScrollButtons: React.FC = () => {
                         )}
 
                         {openScroll === 'contact' && (
-                            <div>
-                                <h2>Contact Me</h2>
-                                <p>Contact form goes here...</p>
-                            </div>
+                            <>
+                                <h2 className={styles.contactTitle}>CONTACT NOW</h2>
+                                <div className={styles.contactList}>
+                                    <a href="https://github.com/zaraakhtar" target="_blank" rel="noopener noreferrer" className={styles.contactItem} title="GitHub">
+                                        <Github className={styles.contactIcon} size={32} />
+                                    </a>
+
+                                    <a href="https://www.linkedin.com/in/zara-akhtar-app-developer/" target="_blank" rel="noopener noreferrer" className={styles.contactItem} title="LinkedIn">
+                                        <Linkedin className={styles.contactIcon} size={32} />
+                                    </a>
+
+                                    <div className={styles.contactItem} title="zarakhtr9@gmail.com" onClick={() => {
+                                        navigator.clipboard.writeText('zarakhtr9@gmail.com');
+                                        setCopyStatus(true);
+                                        setTimeout(() => setCopyStatus(false), 2000);
+                                    }}>
+                                        <Mail className={styles.contactIcon} size={32} />
+                                    </div>
+
+                                    <div className={styles.contactItem} title="" onClick={() => {
+                                        //navigator.clipboard.writeText('+923099461865');
+                                        //setCopyStatus(true);
+                                        //setTimeout(() => setCopyStatus(false), 2000);
+                                    }}>
+                                        <Phone className={styles.contactIcon} size={32} />
+                                    </div>
+                                </div>
+                            </>
                         )}
                     </div>
 
