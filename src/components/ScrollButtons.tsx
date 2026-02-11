@@ -88,6 +88,15 @@ export const ScrollButtons: React.FC = () => {
                             </div>
                         )}
                     </div>
+
+                    {/* Close Button */}
+                    <button
+                        className={styles.closeButton}
+                        onClick={handleClose}
+                        aria-label="Close"
+                    >
+                        ×
+                    </button>
                 </div>
             </div>
         </>
