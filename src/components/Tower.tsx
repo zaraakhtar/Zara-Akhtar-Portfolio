@@ -250,6 +250,28 @@ export const Tower: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Left Bushes */}
+            <div className={styles.leftBushes}>
+                <Image
+                    src="/leftbushes.svg"
+                    alt="Left Bushes"
+                    width={500}
+                    height={300}
+                    className={styles.bushImage}
+                />
+            </div>
+
+            {/* Right Bushes */}
+            <div className={styles.rightBushes}>
+                <Image
+                    src="/rightbushes.svg"
+                    alt="Right Bushes"
+                    width={500}
+                    height={300}
+                    className={styles.bushImage}
+                />
+            </div>
         </div>
     );
 };
