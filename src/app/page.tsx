@@ -1,10 +1,13 @@
-import { StarryBackground, Tower } from "@/components";
+import { StarryBackground, Tower, ScrollButtons } from "@/components";
 
 export default function Home() {
   return (
     <div className="relative min-h-screen w-full">
       {/* Starry background - fixed behind everything */}
       <StarryBackground />
+
+      {/* Fixed UI Elements */}
+      <ScrollButtons />
 
       {/* Tower - scrollable content */}
       <div className="relative z-10">
