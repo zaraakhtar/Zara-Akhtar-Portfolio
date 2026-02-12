@@ -68,11 +68,16 @@
     letter-spacing: 0.05em;
 }
 
-.scrollButton:hover .tooltip,
-.scrollButton.forceTooltip .tooltip {
+.scrollButton:hover .tooltip {
     opacity: 1;
     visibility: visible;
     transform: translateY(-50%) translateX(0);
+}
+
+.scrollButton.forceTooltip .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0) scale(1.1) rotate(-5deg);
 }
 
 /* Modal / Overlay */

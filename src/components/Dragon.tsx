@@ -39,32 +39,23 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
     useEffect(() => {
         const sequence = async () => {
             if (flightPath === 'enter') {
-                // Start off-screen to the left (top-left relative to tower)
+                // Start off-screen to the left relative to the tower
                 await controls.start({
-                    x: -200,
-                    y: 100,
+                    x: 0, // Reset any transforms
+                    y: 0,
+                    left: "-25%", // Start off the side of the tower
+                    top: "10%",
                     scale: 0.5,
                     transition: { duration: 0 }
                 });
 
-                // Fly to the middle (Main Position)
+                // Fly to the middle of first and 2nd window, towards the center
                 await controls.start({
-                    // x: Horizontal position. 
-                    // "30vw" means 30% from the left edge of the screen. 
-                    // "- 130px" shifts it further left. 
-                    // Increase "30vw" to move RIGHT. Decrease to move LEFT.
-                    x: "calc(30vw - 130px)",
-
-                    // y: Vertical position.
-                    // "10vh" means 10% down from the top.
-                    // Increase (e.g., "20vh") to move DOWN. Decrease (e.g., "0vh") to move UP.
-                    y: "10vh",
-
-                    // scale: Size of the dragon. 1 is full size, 0.5 is half size.
+                    left: "22%", // More towards the center (Tower center is ~50%, Dragon width is 25%)
+                    top: "8%", // Vertically between 1st safe (7.4%) and 2nd safe (18.5%)
                     scale: 1,
-
                     transition: {
-                        duration: 3, // How long it takes to fly in (in seconds)
+                        duration: 3,
                         ease: "easeInOut"
                     }
                 });
@@ -72,16 +63,12 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                 // Show bubble immediately after arriving
                 setShowBubble(true);
 
-                // Start hovering in the middle (Bobbing Motion)
+                // Start hovering (Bobbing Motion)
                 controls.start({
-                    // y: The vertical bobbing range.
-                    // Starts at "10vh" (top), moves down to "12vh", then back to "10vh".
-                    // Change these values to adjust how high/low it bobs.
-                    y: ["10vh", "12vh", "10vh"],
-
+                    top: ["8%", "9%", "8%"], // Bob vertically around the new position
                     transition: {
-                        duration: 2, // One full up/down cycle takes 2 seconds
-                        repeat: Infinity, // Loops forever
+                        duration: 2,
+                        repeat: Infinity,
                         ease: "easeInOut"
                     }
                 });
@@ -133,15 +120,10 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
             setShowBubble(false);
             window.dispatchEvent(new Event('hide-cv-tooltip')); // Hide tooltips immediately
             controls.start({
-                // x: 38vw to 46vw roughly targets the "First Safe" (left of center)
-                x: "15vw",
-
-                // y: 30vh roughly targets the first window vertical position
-                y: "7vh",
-
-                // scale: Reduced slightly as requested (0.85)
+                // Target the First Safe (approx top: 7.4%, left: 46%)
+                left: "40%",
+                top: "5%",
                 scale: 0.65,
-
                 transition: { duration: 3, ease: "easeInOut" }
             });
         }
@@ -151,10 +133,10 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
         <motion.div
             animate={controls}
             style={{
-                position: 'fixed',
+                position: 'absolute',
                 left: 0,
                 top: 0,
-                width: '300px', // Adjust size as needed
+                width: '25%', // Use percentage for scaling relative to Tower
                 height: 'auto',
                 zIndex: 50, // Ensure it's above other elements but below crucial UI if needed
                 pointerEvents: 'none' // Let clicks pass through unless dragon is interactive

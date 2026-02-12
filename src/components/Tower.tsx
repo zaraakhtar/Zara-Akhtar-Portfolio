@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './Tower.module.css';
+import Dragon from './Dragon';
 
 interface CloudData {
     id: string;
@@ -150,6 +151,9 @@ export const Tower: React.FC = () => {
                         className={styles.towerImage}
                         priority
                     />
+
+                    {/* Dragon - Animated Character */}
+                    <Dragon />
 
                     {/* First Window Safe (left side) */}
                     <div
