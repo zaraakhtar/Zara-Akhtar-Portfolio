@@ -31,6 +31,20 @@ export const Tower: React.FC = () => {
     const [isSeventhSafeOpen, setIsSeventhSafeOpen] = useState(false);
 
     const [clouds, setClouds] = useState<CloudData[]>([]);
+    const [showSafeTooltip, setShowSafeTooltip] = useState(false);
+
+    useEffect(() => {
+        const handleShow = () => setShowSafeTooltip(true);
+        const handleHide = () => setShowSafeTooltip(false);
+
+        window.addEventListener('show-safe-tooltip', handleShow);
+        window.addEventListener('hide-safe-tooltip', handleHide);
+
+        return () => {
+            window.removeEventListener('show-safe-tooltip', handleShow);
+            window.removeEventListener('hide-safe-tooltip', handleHide);
+        };
+    }, []);
 
     useEffect(() => {
         const newClouds: CloudData[] = [];
@@ -160,6 +174,9 @@ export const Tower: React.FC = () => {
                         className={styles.firstSafe}
                         onClick={() => setIsFirstSafeOpen(!isFirstSafeOpen)}
                     >
+                        <div className={`${styles.safeTooltip} ${showSafeTooltip ? styles.visible : ''}`}>
+                            Click Me!
+                        </div>
                         <Image
                             src={isFirstSafeOpen ? "/safeoneopen.svg" : "/safeoneclosed.svg"}
                             alt="First Safe"

@@ -20,7 +20,9 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
         "Greetings, discerning visitor! Welcome to Zara's digital keep of innovation.",
         "I am toothless, guardian of these realms, here to illuminate the extraordinary talents you seek.",
         "Zara is a React Native Developer, a true weaver of digital magic, specializing in the amazing art of AI integration.",
-        "Let’s explore her journey. Yet, should your time be as fleeting as a passing cloud, worry not here is the scroll of her deeds, and a way to reach her."
+        "Let’s explore her journey. Yet, should your time be as fleeting as a passing cloud, worry not here is the scroll of her deeds, and a way to reach her.",
+        "We begin with her impactful contributions at TechNexus Innovations.",
+        "A testament to cutting-edge development and AI integration. Click to see the details!"
     ];
 
     const currentText = dialogues[currentDialogueIndex];
@@ -117,11 +119,41 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
             }, 4000);
         }
 
+        if (currentDialogueIndex === 5) {
+            // Show safe tooltip 500ms after dialogue starts
+            timeout = setTimeout(() => {
+                window.dispatchEvent(new Event('show-safe-tooltip'));
+
+                // Auto-hide safe tooltip 5 seconds after they appear
+                hideTimeout = setTimeout(() => {
+                    window.dispatchEvent(new Event('hide-safe-tooltip'));
+                }, 5000); // 5s duration
+            }, 500);
+        }
+
         return () => {
             clearTimeout(timeout);
             clearTimeout(hideTimeout);
         };
     }, [currentDialogueIndex]);
+
+    // Move Dragon to First Safe position when dialogue index reaches 4 and delay dialogue
+    useEffect(() => {
+        if (currentDialogueIndex === 4) {
+            // Hide bubble while moving
+            setShowBubble(false);
+
+            controls.start({
+                left: "22%",
+                top: "3%",
+                scale: 0.65,
+                transition: { duration: 2, ease: "easeInOut" }
+            }).then(() => {
+                // Show bubble again after movement finishes
+                setShowBubble(true);
+            });
+        }
+    }, [currentDialogueIndex, controls]);
 
     function handleNextDialogue() {
         if (currentDialogueIndex < dialogues.length - 1) {
@@ -130,14 +162,14 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
             // Only trigger end sequence if bubble is still showing
             // End sequence - Fly to First Safe
             setShowBubble(false);
-            window.dispatchEvent(new Event('hide-cv-tooltip')); // Hide tooltips immediately
-            controls.start({
-                // Target the Left Side of the First Safe (Safe is at ~46%,Dragon width ~25%)
-                left: "22%",
-                top: "3%",
-                scale: 0.65, // Keep the scale reduction
-                transition: { duration: 3, ease: "easeInOut" }
-            });
+            window.dispatchEvent(new Event('hide-cv-tooltip'));
+            window.dispatchEvent(new Event('hide-safe-tooltip'));
+
+            // Dragon stays there or flies away? 
+            // For now, let's just make it hover there or maybe fly up/away?
+            // The user didn't specify what happens *after* these new dialogues, 
+            // implying the "end state" is just hanging out there or maybe moving to the next one later.
+            // I'll keep it there for now.
         }
     }
 
