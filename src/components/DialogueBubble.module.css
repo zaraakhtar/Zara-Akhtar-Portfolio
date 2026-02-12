@@ -11,12 +11,12 @@
     /* rounded-lg */
     padding: 0.75rem;
     /* p-3 */
-    min-width: 200px;
-    max-width: 300px;
+    min-width: 300px;
+    max-width: 400px;
     box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
     z-index: 100;
     font-family: var(--font-dos-vga);
-    font-size: 0.875rem;
+    font-size: 1rem;
     /* text-sm */
     color: black;
     line-height: 1.375;
@@ -44,7 +44,7 @@
 
 .cursor {
     display: inline-block;
-    width: 0.5rem;
+    width: 0.3rem;
     /* w-2 */
     height: 1rem;
     /* h-4 */

@@ -13,7 +13,15 @@ interface DragonProps {
 const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
     const [wingsUp, setWingsUp] = useState(true);
     const [showBubble, setShowBubble] = useState(false);
-    const fullText = "Greetings, discerning visitor! Welcome to Zara's digital keep of innovation.";
+    const [currentDialogueIndex, setCurrentDialogueIndex] = useState(0);
+
+    const dialogues = [
+        "Greetings, discerning visitor! Welcome to Zara's digital keep of innovation.",
+        "I am toothless, guardian of these realms, here to illuminate the extraordinary talents you seek.",
+        "Zara is a React Native Developer, a true weaver of digital magic, specializing in the whispers of AI integration."
+    ];
+
+    const currentText = dialogues[currentDialogueIndex];
     const controls = useAnimation();
 
     // Wing flapping animation
@@ -39,7 +47,7 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
 
                 // Fly to the middle
                 await controls.start({
-                    x: "calc(50vw - 150px)", // Roughly center (adjusting for width)
+                    x: "calc(30vw - 130px)", // Roughly center (adjusting for width)
                     y: "20vh",
                     scale: 1,
                     transition: {
@@ -88,10 +96,17 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                     filter: 'drop-shadow(0 10px 10px rgba(0,0,0,0.5))' // Add some shadow for depth
                 }}
             />
-            <div className="absolute top-[30%] left-[45%] transform -translate-x-1/2 -translate-y-full">
+            <div className="absolute top-[30%] left-[30%] transform -translate-x-1/2 -translate-y-full">
                 <DialogueBubble
-                    text={fullText}
+                    text={currentText}
                     isVisible={showBubble}
+                    onComplete={() => {
+                        if (currentDialogueIndex < dialogues.length - 1) {
+                            setTimeout(() => {
+                                setCurrentDialogueIndex(prev => prev + 1);
+                            }, currentDialogueIndex === 0 ? 3000 : 2000); // 3s wait after first, 2s after second
+                        }
+                    }}
                 />
             </div>
         </motion.div>
