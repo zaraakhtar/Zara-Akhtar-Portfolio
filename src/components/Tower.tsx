@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './Tower.module.css';
 import Dragon from './Dragon';
+import DetailScrollModal from './DetailScrollModal';
 
 interface CloudData {
     id: string;
@@ -32,6 +33,7 @@ export const Tower: React.FC = () => {
 
     const [clouds, setClouds] = useState<CloudData[]>([]);
     const [showSafeTooltip, setShowSafeTooltip] = useState(false);
+    const [activeScroll, setActiveScroll] = useState<string | null>(null);
 
     useEffect(() => {
         const handleShow = () => setShowSafeTooltip(true);
@@ -134,6 +136,17 @@ export const Tower: React.FC = () => {
         setClouds(newClouds);
     }, []);
 
+    const handleCloseModal = () => {
+        if (activeScroll === 'safe-1') setIsFirstSafeOpen(false);
+        if (activeScroll === 'safe-2') setIsSecondSafeOpen(false);
+        if (activeScroll === 'safe-3') setIsThirdSafeOpen(false);
+        if (activeScroll === 'safe-4') setIsFourthSafeOpen(false);
+        if (activeScroll === 'safe-5') setIsFifthSafeOpen(false);
+        if (activeScroll === 'safe-6') setIsSixthSafeOpen(false);
+        if (activeScroll === 'safe-7') setIsSeventhSafeOpen(false);
+        setActiveScroll(null);
+    };
+
     return (
         <div className={styles.towerContainer}>
             <div className={styles.towerWrapper}>
@@ -172,7 +185,11 @@ export const Tower: React.FC = () => {
                     {/* First Window Safe (left side) */}
                     <div
                         className={styles.firstSafe}
-                        onClick={() => setIsFirstSafeOpen(!isFirstSafeOpen)}
+                        onClick={() => {
+                            const newState = !isFirstSafeOpen;
+                            setIsFirstSafeOpen(newState);
+                            if (newState) setActiveScroll('safe-1');
+                        }}
                     >
                         <div className={`${styles.safeTooltip} ${showSafeTooltip ? styles.visible : ''}`}>
                             Click Me!
@@ -189,7 +206,11 @@ export const Tower: React.FC = () => {
                     {/* Second Window Safe (left side, lower) */}
                     <div
                         className={styles.secondSafe}
-                        onClick={() => setIsSecondSafeOpen(!isSecondSafeOpen)}
+                        onClick={() => {
+                            const newState = !isSecondSafeOpen;
+                            setIsSecondSafeOpen(newState);
+                            if (newState) setActiveScroll('safe-2');
+                        }}
                     >
                         <Image
                             src={isSecondSafeOpen ? "/safeoneopen.svg" : "/safeoneclosed.svg"}
@@ -203,7 +224,11 @@ export const Tower: React.FC = () => {
                     {/* Third Window Safe (right side) */}
                     <div
                         className={styles.thirdSafe}
-                        onClick={() => setIsThirdSafeOpen(!isThirdSafeOpen)}
+                        onClick={() => {
+                            const newState = !isThirdSafeOpen;
+                            setIsThirdSafeOpen(newState);
+                            if (newState) setActiveScroll('safe-3');
+                        }}
                     >
                         <Image
                             src={isThirdSafeOpen ? "/safetwoopen.svg" : "/safetwoclosed.svg"}
@@ -217,7 +242,11 @@ export const Tower: React.FC = () => {
                     {/* Fourth Window Safe (left side, lower) */}
                     <div
                         className={styles.fourthSafe}
-                        onClick={() => setIsFourthSafeOpen(!isFourthSafeOpen)}
+                        onClick={() => {
+                            const newState = !isFourthSafeOpen;
+                            setIsFourthSafeOpen(newState);
+                            if (newState) setActiveScroll('safe-4');
+                        }}
                     >
                         <Image
                             src={isFourthSafeOpen ? "/safetwoopen.svg" : "/safetwoclosed.svg"}
@@ -231,7 +260,11 @@ export const Tower: React.FC = () => {
                     {/* Fifth Window Safe (right side) */}
                     <div
                         className={styles.fifthSafe}
-                        onClick={() => setIsFifthSafeOpen(!isFifthSafeOpen)}
+                        onClick={() => {
+                            const newState = !isFifthSafeOpen;
+                            setIsFifthSafeOpen(newState);
+                            if (newState) setActiveScroll('safe-5');
+                        }}
                     >
                         <Image
                             src={isFifthSafeOpen ? "/safethreeopen.svg" : "/safethreeclosed.svg"}
@@ -245,7 +278,11 @@ export const Tower: React.FC = () => {
                     {/* Sixth Window Safe (left side) */}
                     <div
                         className={styles.sixthSafe}
-                        onClick={() => setIsSixthSafeOpen(!isSixthSafeOpen)}
+                        onClick={() => {
+                            const newState = !isSixthSafeOpen;
+                            setIsSixthSafeOpen(newState);
+                            if (newState) setActiveScroll('safe-6');
+                        }}
                     >
                         <Image
                             src={isSixthSafeOpen ? "/safethreeopen.svg" : "/safethreeclosed.svg"}
@@ -259,7 +296,11 @@ export const Tower: React.FC = () => {
                     {/* Seventh Window Safe (right side) */}
                     <div
                         className={styles.seventhSafe}
-                        onClick={() => setIsSeventhSafeOpen(!isSeventhSafeOpen)}
+                        onClick={() => {
+                            const newState = !isSeventhSafeOpen;
+                            setIsSeventhSafeOpen(newState);
+                            if (newState) setActiveScroll('safe-7');
+                        }}
                     >
                         <Image
                             src={isSeventhSafeOpen ? "/safethreeopen.svg" : "/safethreeclosed.svg"}
@@ -293,6 +334,17 @@ export const Tower: React.FC = () => {
                     className={styles.bushImage}
                 />
             </div>
+            {/* Modal Overlay for Scrolls */}
+            <DetailScrollModal
+                isOpen={!!activeScroll}
+                onClose={handleCloseModal}
+            >
+                {activeScroll && (
+                    <>
+                        <h2>Details for {activeScroll.replace('-', ' ')}</h2>
+                    </>
+                )}
+            </DetailScrollModal>
         </div>
     );
 };
