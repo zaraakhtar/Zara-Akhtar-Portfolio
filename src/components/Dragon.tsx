@@ -103,12 +103,24 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
     // Handle Tooltip Timing for 3rd Dialogue
     useEffect(() => {
         let timeout: NodeJS.Timeout;
+        let hideTimeout: NodeJS.Timeout;
+
         if (currentDialogueIndex === 3) {
+            // Show tooltips 4 seconds after dialogue starts
             timeout = setTimeout(() => {
                 window.dispatchEvent(new Event('show-cv-tooltip'));
-            }, 4000); // 1s delay after dialogue starts
+
+                // Auto-hide tooltips 5 seconds after they appear
+                hideTimeout = setTimeout(() => {
+                    window.dispatchEvent(new Event('hide-cv-tooltip'));
+                }, 5000); // 5s duration
+            }, 4000);
         }
-        return () => clearTimeout(timeout);
+
+        return () => {
+            clearTimeout(timeout);
+            clearTimeout(hideTimeout);
+        };
     }, [currentDialogueIndex]);
 
     function handleNextDialogue() {
@@ -120,10 +132,10 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
             setShowBubble(false);
             window.dispatchEvent(new Event('hide-cv-tooltip')); // Hide tooltips immediately
             controls.start({
-                // Target the First Safe (approx top: 7.4%, left: 46%)
-                left: "40%",
-                top: "5%",
-                scale: 0.65,
+                // Target the Left Side of the First Safe (Safe is at ~46%,Dragon width ~25%)
+                left: "22%",
+                top: "3%",
+                scale: 0.65, // Keep the scale reduction
                 transition: { duration: 3, ease: "easeInOut" }
             });
         }
