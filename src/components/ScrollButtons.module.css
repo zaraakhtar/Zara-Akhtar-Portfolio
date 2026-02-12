@@ -68,7 +68,8 @@
     letter-spacing: 0.05em;
 }
 
-.scrollButton:hover .tooltip {
+.scrollButton:hover .tooltip,
+.scrollButton.forceTooltip .tooltip {
     opacity: 1;
     visibility: visible;
     transform: translateY(-50%) translateX(0);
@@ -285,5 +286,39 @@
     .tooltip {
         font-size: 0.8rem;
         padding: 0.3rem 0.6rem;
+    }
+
+    /* Modal Responsive Adjustments */
+    .modalContent {
+        min-width: 280px;
+        width: 95%;
+    }
+
+    .scrollContent {
+        width: 65%;
+        height: 55%;
+    }
+
+    .contactTitle {
+        font-size: 1.2rem;
+        padding-bottom: 0.2rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .contactList {
+        gap: 0.8rem;
+        padding-top: 0.2rem;
+    }
+
+    .contactIcon {
+        width: 24px !important;
+        height: 24px !important;
+    }
+
+    .closeButton {
+        width: 12%;
+        height: 12%;
+        top: 10%;
+        right: 8%;
     }
 }

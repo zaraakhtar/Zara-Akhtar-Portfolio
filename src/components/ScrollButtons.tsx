@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './ScrollButtons.module.css';
 import { Github, Linkedin, Mail, Phone } from 'lucide-react';
@@ -10,6 +10,20 @@ type ScrollType = 'cv' | 'contact' | null;
 export const ScrollButtons: React.FC = () => {
     const [openScroll, setOpenScroll] = useState<ScrollType>(null);
     const [copyStatus, setCopyStatus] = useState(false);
+    const [forceTooltip, setForceTooltip] = useState(false);
+
+    useEffect(() => {
+        const handleShow = () => setForceTooltip(true);
+        const handleHide = () => setForceTooltip(false);
+
+        window.addEventListener('show-cv-tooltip', handleShow);
+        window.addEventListener('hide-cv-tooltip', handleHide);
+
+        return () => {
+            window.removeEventListener('show-cv-tooltip', handleShow);
+            window.removeEventListener('hide-cv-tooltip', handleHide);
+        };
+    }, []);
 
     const handleOpen = (type: ScrollType) => {
         setOpenScroll(type);
@@ -31,7 +45,7 @@ export const ScrollButtons: React.FC = () => {
                 <a
                     href="/React Native Developer CV - Zara Akhtar.pdf"
                     download="React_Native_Developer_CV_Zara_Akhtar.pdf"
-                    className={styles.scrollButton}
+                    className={`${styles.scrollButton} ${forceTooltip ? styles.forceTooltip : ''}`}
                     aria-label="Get CV"
                 >
                     <span className={styles.tooltip}>Get CV</span>
@@ -47,7 +61,7 @@ export const ScrollButtons: React.FC = () => {
 
                 {/* Bottom Button: Contact Now */}
                 <button
-                    className={styles.scrollButton}
+                    className={`${styles.scrollButton} ${forceTooltip ? styles.forceTooltip : ''}`}
                     aria-label="Contact Now"
                     onClick={() => handleOpen('contact')}
                 >

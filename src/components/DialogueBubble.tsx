@@ -8,13 +8,17 @@ interface DialogueBubbleProps {
     text: string;
     isVisible: boolean;
     onComplete?: () => void;
+    onTypingStart?: () => void;
+    onTypingComplete?: () => void;
     position?: 'top' | 'bottom' | 'left' | 'right'; // Could be useful for placement context
 }
 
 const DialogueBubble: React.FC<DialogueBubbleProps> = ({
     text,
     isVisible,
-    onComplete
+    onComplete,
+    onTypingStart,
+    onTypingComplete
 }) => {
     const [displayedText, setDisplayedText] = useState('');
     const [isTyping, setIsTyping] = useState(false);
@@ -23,11 +27,12 @@ const DialogueBubble: React.FC<DialogueBubbleProps> = ({
         if (isVisible) {
             setIsTyping(true);
             setDisplayedText('');
+            if (onTypingStart) onTypingStart();
         } else {
             setIsTyping(false);
             setDisplayedText('');
         }
-    }, [isVisible, text]);
+    }, [isVisible, text]); // Removed onTypingStart from dependency to avoid loop if unstable
 
     useEffect(() => {
         if (isTyping && displayedText.length < text.length) {
@@ -37,9 +42,10 @@ const DialogueBubble: React.FC<DialogueBubbleProps> = ({
             return () => clearTimeout(timeout);
         } else if (isTyping && displayedText.length === text.length) {
             setIsTyping(false);
+            if (onTypingComplete) onTypingComplete();
             if (onComplete) onComplete();
         }
-    }, [isTyping, displayedText, text, onComplete]);
+    }, [isTyping, displayedText, text, onComplete]); // Removed onTypingComplete to avoid loop
 
     return (
         <AnimatePresence>
