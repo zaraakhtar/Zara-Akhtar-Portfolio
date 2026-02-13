@@ -3,7 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './Tower.module.css';
+import detailStyles from './DetailScrollModal.module.css';
 import Dragon from './Dragon';
+import { Smartphone, Zap, Mic, Database, Layout, Code, Server } from 'lucide-react';
 import DetailScrollModal from './DetailScrollModal';
 
 interface CloudData {
@@ -339,10 +341,34 @@ export const Tower: React.FC = () => {
                 isOpen={!!activeScroll}
                 onClose={handleCloseModal}
             >
-                {activeScroll && (
+                {activeScroll === 'safe-1' && (
                     <>
-                        <h2>Details for {activeScroll.replace('-', ' ')}</h2>
+                        <div className={detailStyles.jobTitle}>React Native Developer</div>
+                        <div className={detailStyles.companyName}>at TechNexus Innovations</div>
+                        <ul className={detailStyles.jobDetails}>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>Converted a Web App to a Mobile App Interface</strong> and implemented the UI from scratch.
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>End-to-End Development:</strong> Architected and deployed a cross-platform mobile application (iOS/Android) featuring 30+ screens for AI-driven SWOT analysis and survey management.
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>Real-Time AI Integration:</strong> Developed a high-performance streaming AI chat interface using WebSockets, implementing custom reconnection logic and chunk-based message handling for instant responses.
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>Voice Communication (Current):</strong> Engineering a real-time voice-to-voice interaction layer for the AI chatbot, focusing on low-latency audio processing and seamless UI synchronization.
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>State & Data Management:</strong> Implemented a robust offline-first architecture using Redux Toolkit and Redux Persist, ensuring data consistency across complex multi-step workflows.
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>Scalable UI System:</strong> Designed a library of reusable TypeScript components and integrated React Native Reanimated for fluid, high-frame-rate animations.
+                            </li>
+                        </ul>
                     </>
+                )}
+                {activeScroll !== 'safe-1' && activeScroll && (
+                    <h2>Details for {activeScroll.replace('-', ' ')}</h2>
                 )}
             </DetailScrollModal>
         </div>

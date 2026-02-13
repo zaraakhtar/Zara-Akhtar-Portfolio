@@ -14,6 +14,7 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
     const [wingsUp, setWingsUp] = useState(true);
     const [showBubble, setShowBubble] = useState(false);
     const [currentDialogueIndex, setCurrentDialogueIndex] = useState(0);
+    const [textScale, setTextScale] = useState(1);
     const [isTyping, setIsTyping] = useState(false); // Track if typing is in progress
 
     const dialogues = [
@@ -149,7 +150,7 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                 scale: 0.65,
                 transition: { duration: 2, ease: "easeInOut" }
             }).then(() => {
-                // Show bubble again after movement finishes
+                setTextScale(1 / 0.65);
                 setShowBubble(true);
             });
         }
@@ -199,6 +200,7 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                 <DialogueBubble
                     text={currentText}
                     isVisible={showBubble}
+                    scale={textScale}
                     onTypingStart={() => setIsTyping(true)}
                     onTypingComplete={() => setIsTyping(false)}
                     onComplete={() => {

@@ -7,6 +7,7 @@ import styles from './DialogueBubble.module.css';
 interface DialogueBubbleProps {
     text: string;
     isVisible: boolean;
+    scale?: number; // Added scale prop
     onComplete?: () => void;
     onTypingStart?: () => void;
     onTypingComplete?: () => void;
@@ -16,6 +17,7 @@ interface DialogueBubbleProps {
 const DialogueBubble: React.FC<DialogueBubbleProps> = ({
     text,
     isVisible,
+    scale = 1, // Default scale to 1
     onComplete,
     onTypingStart,
     onTypingComplete
@@ -51,9 +53,9 @@ const DialogueBubble: React.FC<DialogueBubbleProps> = ({
         <AnimatePresence>
             {isVisible && (
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.8, y: 10 }}
+                    initial={{ opacity: 0, scale: 0.8 * scale, y: 10 }}
+                    animate={{ opacity: 1, scale: 1 * scale, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.8 * scale, y: 10 }}
                     className={styles.bubbleContainer}
                 >
                     {/* Text Content */}

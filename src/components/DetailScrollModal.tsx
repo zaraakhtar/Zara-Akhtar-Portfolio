@@ -14,7 +14,7 @@ interface DetailScrollModalProps {
 const DetailScrollModal: React.FC<DetailScrollModalProps> = ({
     isOpen,
     onClose,
-    imageSrc = "/middetailscroll.svg",
+    imageSrc,
     children
 }) => {
     return (
@@ -26,14 +26,35 @@ const DetailScrollModal: React.FC<DetailScrollModalProps> = ({
                 className={styles.modalContent}
                 onClick={(e) => e.stopPropagation()}
             >
-                <Image
-                    src={imageSrc}
-                    alt="Detail Scroll"
-                    width={600}
-                    height={800}
-                    className={styles.scrollImage}
-                    priority // Load quickly
-                />
+                {imageSrc ? (
+                    <Image
+                        src={imageSrc}
+                        alt="Detail Scroll"
+                        width={600}
+                        height={800}
+                        className={styles.scrollImage}
+                        priority // Load quickly
+                    />
+                ) : (
+                    <>
+                        <Image
+                            src="/middetailscroll.svg"
+                            alt="Detail Scroll Desktop"
+                            width={600}
+                            height={800}
+                            className={styles.scrollImageDesktop}
+                            priority
+                        />
+                        <Image
+                            src="/middetailscroll-mobile.svg"
+                            alt="Detail Scroll Mobile"
+                            width={600}
+                            height={800}
+                            className={styles.scrollImageMobile}
+                            priority
+                        />
+                    </>
+                )}
 
                 <div className={styles.contentContainer}>
                     {children}

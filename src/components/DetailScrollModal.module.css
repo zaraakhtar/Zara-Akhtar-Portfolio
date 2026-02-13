@@ -24,8 +24,8 @@
 
 .modalContent {
     position: relative;
-    width: 80%;
-    max-width: 600px;
+    width: 85%;
+    max-width: 1000px;
     min-width: 300px;
     height: auto;
     transform: scale(0.9);
@@ -45,20 +45,128 @@
     filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.8));
 }
 
+.scrollImageDesktop {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.8));
+}
+
+.scrollImageMobile {
+    width: 100%;
+    height: auto;
+    display: none;
+    filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.8));
+}
+
+@media (max-width: 600px) {
+    .scrollImageDesktop {
+        display: none;
+    }
+
+    .scrollImageMobile {
+        display: block;
+    }
+}
+
 .contentContainer {
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 60%;
-    height: 50%;
+    width: 65%;
+    height: 60%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
     font-family: var(--font-dos-vga), var(--font-pixelify), monospace;
-    pointer-events: none;
-    /* Text shouldn't block clicks underneath but buttons inside might need pointer-events: auto */
+    pointer-events: auto;
+    /* Enable scrolling and text selection */
+    overflow-y: auto;
+    padding: 1rem;
+    padding-top: 2rem;
+    /* Add breathing room for desktop */
+    scrollbar-width: thin;
+    scrollbar-color: #573a1e transparent;
+
+    /* Center alignments for desktop */
+    align-items: center;
+    text-align: center;
+}
+
+.contentContainer::-webkit-scrollbar {
+    width: 6px;
+}
+
+.contentContainer::-webkit-scrollbar-thumb {
+    background-color: #573a1e;
+    border-radius: 3px;
+}
+
+.contentContainer::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Detail Styles */
+.jobTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #3d2b1f;
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+    width: 100%;
+    border-bottom: 2px solid rgba(61, 43, 31, 0.3);
+    padding-bottom: 0.5rem;
+}
+
+.companyName {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #573a1e;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.jobDetails {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.jobDetailItem {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: #1a120b;
+}
+
+.jobDetailItem::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #573a1e;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    .jobTitle {
+        font-size: 1.1rem;
+    }
+
+    .companyName {
+        font-size: 0.9rem;
+    }
+
+    .jobDetailItem {
+        font-size: 0.8rem;
+        padding-left: 1rem;
+    }
 }
 
 .overlay.active .contentContainer {
@@ -95,20 +203,36 @@
 }
 
 @media (max-width: 768px) {
+
+    /* Tablet/General Mobile adjustments */
     .modalContent {
         min-width: 280px;
         width: 95%;
     }
+}
+
+@media (max-width: 600px) {
+
+    /* Specific Mobile adjustments for vertical scroll */
+    .modalContent {
+        width: 85%;
+        /* Reduce scroll size slightly */
+    }
 
     .contentContainer {
-        width: 65%;
-        height: 55%;
+        width: 75%;
+        height: 72%;
+        /* Increase height to fill bottom space */
+        padding-top: 1rem;
     }
 
     .closeButton {
         width: 15%;
         height: 15%;
-        top: -2%;
-        right: -2%;
+        top: -11%;
+        /* Move down to 'hold' the scroll */
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
     }
 }
