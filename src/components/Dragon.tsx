@@ -17,6 +17,7 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
     const [textScale, setTextScale] = useState(1);
     const [isTyping, setIsTyping] = useState(false); // Track if typing is in progress
     const [pendingAction, setPendingAction] = useState<string | null>(null);
+    const [dialogueQueue, setDialogueQueue] = useState<{ text: string, action?: string }[]>([]);
 
     const [overrideText, setOverrideText] = useState<string | null>(null);
 
@@ -145,7 +146,7 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
         }
 
         if (currentDialogueIndex === 5) {
-            // Show safe tooltip 500ms after dialogue starts
+            // Show safe tooltip 3000ms after dialogue starts
             timeout = setTimeout(() => {
                 window.dispatchEvent(new Event('show-safe-tooltip'));
 
@@ -153,7 +154,7 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                 hideTimeout = setTimeout(() => {
                     window.dispatchEvent(new Event('hide-safe-tooltip'));
                 }, 5000); // 5s duration
-            }, 500);
+            }, 3000);
         }
 
         return () => {
@@ -182,7 +183,26 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
 
     function handleNextDialogue() {
         if (overrideText) {
-            // If showing override text, just close it and reset
+            // Check if there are more dialogues in the queue
+            if (dialogueQueue.length > 0) {
+                const nextDialogue = dialogueQueue[0];
+                setDialogueQueue(prev => prev.slice(1));
+                setOverrideText(nextDialogue.text);
+
+                // Handle actions attached to queued dialogues
+                if (nextDialogue.action === 'show-safe-3-tooltip') {
+                    window.dispatchEvent(new Event('show-safe-3-tooltip'));
+                    setTimeout(() => {
+                        window.dispatchEvent(new Event('hide-safe-3-tooltip'));
+                    }, 5000);
+                }
+
+                setShowBubble(true);
+                setIsTyping(true);
+                return;
+            }
+
+            // If showing override text and queue is empty, just close it and reset
             setShowBubble(false);
             setOverrideText(null);
 
@@ -202,6 +222,41 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                     }, 2500);
                     setShowBubble(true);
                     setIsTyping(true);
+
+                    // Resume hovering (Bobbing Motion) at new position
+                    controls.start({
+                        top: ["10%", "11%", "10%"],
+                        transition: {
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }
+                    });
+                });
+            } else if (pendingAction === 'move-to-safe-3') {
+                setPendingAction(null);
+                controls.start({
+                    left: "35%", // Calculated to be to the left of the 3rd safe (which is at right 36.5%)
+                    top: "20%",  // Calculated offset from safe top (29.5%) similar to safe 2
+                    transition: { duration: 1.5, ease: "easeInOut" }
+                }).then(() => {
+                    setDialogueQueue([
+                        { text: "These radiant crystals safeguard her most formidable skills." },
+                        { text: "The foundation of modern mobile development, infused with intelligent systems. Uncover the full list!", action: 'show-safe-3-tooltip' }
+                    ]);
+                    setOverrideText("Having witnessed her professional journey, now we delve into the very essence of Zara's capabilities.");
+                    setShowBubble(true);
+                    setIsTyping(true);
+
+                    // Resume hovering (Bobbing Motion) at new position
+                    controls.start({
+                        top: ["20%", "21%", "20%"],
+                        transition: {
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }
+                    });
                 });
             }
             return;

@@ -36,6 +36,7 @@ export const Tower: React.FC = () => {
     const [clouds, setClouds] = useState<CloudData[]>([]);
     const [showSafeTooltip, setShowSafeTooltip] = useState(false);
     const [showSafe2Tooltip, setShowSafe2Tooltip] = useState(false);
+    const [showSafe3Tooltip, setShowSafe3Tooltip] = useState(false);
     const [activeScroll, setActiveScroll] = useState<string | null>(null);
 
     useEffect(() => {
@@ -43,17 +44,23 @@ export const Tower: React.FC = () => {
         const handleHide = () => setShowSafeTooltip(false);
         const handleShow2 = () => setShowSafe2Tooltip(true);
         const handleHide2 = () => setShowSafe2Tooltip(false);
+        const handleShow3 = () => setShowSafe3Tooltip(true);
+        const handleHide3 = () => setShowSafe3Tooltip(false);
 
         window.addEventListener('show-safe-tooltip', handleShow);
         window.addEventListener('hide-safe-tooltip', handleHide);
         window.addEventListener('show-safe-2-tooltip', handleShow2);
         window.addEventListener('hide-safe-2-tooltip', handleHide2);
+        window.addEventListener('show-safe-3-tooltip', handleShow3);
+        window.addEventListener('hide-safe-3-tooltip', handleHide3);
 
         return () => {
             window.removeEventListener('show-safe-tooltip', handleShow);
             window.removeEventListener('hide-safe-tooltip', handleHide);
             window.removeEventListener('show-safe-2-tooltip', handleShow2);
             window.removeEventListener('hide-safe-2-tooltip', handleHide2);
+            window.removeEventListener('show-safe-3-tooltip', handleShow3);
+            window.removeEventListener('hide-safe-3-tooltip', handleHide3);
         };
     }, []);
 
@@ -155,7 +162,15 @@ export const Tower: React.FC = () => {
                 }
             }));
         }
-        if (activeScroll === 'safe-2') setIsSecondSafeOpen(false);
+        if (activeScroll === 'safe-2') {
+            setIsSecondSafeOpen(false);
+            window.dispatchEvent(new CustomEvent('dragon-say', {
+                detail: {
+                    text: "From the outset, a commitment to quality and problem-solving has defined Zara's approach.",
+                    nextAction: "move-to-safe-3"
+                }
+            }));
+        }
         if (activeScroll === 'safe-3') setIsThirdSafeOpen(false);
         if (activeScroll === 'safe-4') setIsFourthSafeOpen(false);
         if (activeScroll === 'safe-5') setIsFifthSafeOpen(false);
@@ -250,6 +265,9 @@ export const Tower: React.FC = () => {
                             if (newState) setActiveScroll('safe-3');
                         }}
                     >
+                        <div className={`${styles.safeTooltip} ${showSafe3Tooltip ? styles.visible : ''}`}>
+                            Click Me!
+                        </div>
                         <Image
                             src={isThirdSafeOpen ? "/safetwoopen.svg" : "/safetwoclosed.svg"}
                             alt="Third Safe"
@@ -404,7 +422,31 @@ export const Tower: React.FC = () => {
                         </ul>
                     </>
                 )}
-                {activeScroll !== 'safe-1' && activeScroll !== 'safe-2' && activeScroll && (
+                {activeScroll === 'safe-3' && (
+                    <>
+                        <div className={detailStyles.jobTitle}>Core Mobile Development & AI-Related Technologies</div>
+                        {/* No company name for skills list, or maybe just a spacer */}
+                        <div style={{ marginBottom: '1rem' }}></div>
+                        <ul className={detailStyles.jobDetails}>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>Mobile Frameworks:</strong> React Native (CLI), TypeScript, JavaScript (ES6+), React Navigation.
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>AI/Real-Time Integration:</strong> WebSockets (Socket.io), RESTful APIs, Axios.
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>State Management:</strong> Redux Toolkit, Context API, AsyncStorage, Redux Persist.
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>UI/UX & Animation:</strong> React Native Reanimated, Gorhom Bottom Sheet, Vector Icons, React Hook Form.
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>Tools & Dev-Ops:</strong> Git, Unit Testing, Dev Tools, VS Code.
+                            </li>
+                        </ul>
+                    </>
+                )}
+                {activeScroll !== 'safe-1' && activeScroll !== 'safe-2' && activeScroll !== 'safe-3' && activeScroll && (
                     <h2>Details for {activeScroll.replace('-', ' ')}</h2>
                 )}
             </DetailScrollModal>
