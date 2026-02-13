@@ -37,6 +37,7 @@ export const Tower: React.FC = () => {
     const [showSafeTooltip, setShowSafeTooltip] = useState(false);
     const [showSafe2Tooltip, setShowSafe2Tooltip] = useState(false);
     const [showSafe3Tooltip, setShowSafe3Tooltip] = useState(false);
+    const [showSafe4Tooltip, setShowSafe4Tooltip] = useState(false);
     const [activeScroll, setActiveScroll] = useState<string | null>(null);
 
     useEffect(() => {
@@ -46,6 +47,8 @@ export const Tower: React.FC = () => {
         const handleHide2 = () => setShowSafe2Tooltip(false);
         const handleShow3 = () => setShowSafe3Tooltip(true);
         const handleHide3 = () => setShowSafe3Tooltip(false);
+        const handleShow4 = () => setShowSafe4Tooltip(true);
+        const handleHide4 = () => setShowSafe4Tooltip(false);
 
         window.addEventListener('show-safe-tooltip', handleShow);
         window.addEventListener('hide-safe-tooltip', handleHide);
@@ -53,6 +56,8 @@ export const Tower: React.FC = () => {
         window.addEventListener('hide-safe-2-tooltip', handleHide2);
         window.addEventListener('show-safe-3-tooltip', handleShow3);
         window.addEventListener('hide-safe-3-tooltip', handleHide3);
+        window.addEventListener('show-safe-4-tooltip', handleShow4);
+        window.addEventListener('hide-safe-4-tooltip', handleHide4);
 
         return () => {
             window.removeEventListener('show-safe-tooltip', handleShow);
@@ -61,6 +66,8 @@ export const Tower: React.FC = () => {
             window.removeEventListener('hide-safe-2-tooltip', handleHide2);
             window.removeEventListener('show-safe-3-tooltip', handleShow3);
             window.removeEventListener('hide-safe-3-tooltip', handleHide3);
+            window.removeEventListener('show-safe-4-tooltip', handleShow4);
+            window.removeEventListener('hide-safe-4-tooltip', handleHide4);
         };
     }, []);
 
@@ -180,7 +187,15 @@ export const Tower: React.FC = () => {
                 }
             }));
         }
-        if (activeScroll === 'safe-4') setIsFourthSafeOpen(false);
+        if (activeScroll === 'safe-4') {
+            setIsFourthSafeOpen(false);
+            window.dispatchEvent(new CustomEvent('dragon-say', {
+                detail: {
+                    text: "A skilled developer is also a strategic thinker and a valuable team member. Zara embodies these qualities.",
+                    nextAction: "move-to-safe-5" // Assuming next safe action
+                }
+            }));
+        }
         if (activeScroll === 'safe-5') setIsFifthSafeOpen(false);
         if (activeScroll === 'safe-6') setIsSixthSafeOpen(false);
         if (activeScroll === 'safe-7') setIsSeventhSafeOpen(false);
@@ -294,6 +309,9 @@ export const Tower: React.FC = () => {
                             if (newState) setActiveScroll('safe-4');
                         }}
                     >
+                        <div className={`${styles.safeTooltip} ${showSafe4Tooltip ? styles.visible : ''}`}>
+                            Click Me!
+                        </div>
                         <Image
                             src={isFourthSafeOpen ? "/safetwoopen.svg" : "/safetwoclosed.svg"}
                             alt="Fourth Safe"
@@ -454,7 +472,30 @@ export const Tower: React.FC = () => {
                         </ul>
                     </>
                 )}
-                {activeScroll !== 'safe-1' && activeScroll !== 'safe-2' && activeScroll !== 'safe-3' && activeScroll && (
+                {activeScroll === 'safe-4' && (
+                    <>
+                        <div className={detailStyles.jobTitle}>Professional & Soft Skills</div>
+                        <div style={{ marginBottom: '1rem' }}></div>
+                        <ul className={detailStyles.jobDetails}>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>Problem-Solving:</strong> Able to independently troubleshoot and solve technical challenges.
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>Communication:</strong> Clear and professional in written and verbal communication, including documenting code and collaborating with teams.
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>Adaptability:</strong> Quick to learn new tools, frameworks, and processes.
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>Time Management:</strong> Organized and focused, consistently meeting deadlines and project goals.
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>Team Player:</strong> Collaborative mindset with a positive, proactive attitude toward team goals.
+                            </li>
+                        </ul>
+                    </>
+                )}
+                {activeScroll !== 'safe-1' && activeScroll !== 'safe-2' && activeScroll !== 'safe-3' && activeScroll !== 'safe-4' && activeScroll && (
                     <h2>Details for {activeScroll.replace('-', ' ')}</h2>
                 )}
             </DetailScrollModal>

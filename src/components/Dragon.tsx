@@ -297,6 +297,16 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                     top: "32%",
                     transition: { duration: 1.5, ease: "easeInOut" }
                 }).then(() => {
+                    setOverrideText("What truly distinguishes a developer? Her collaborative spirit and approach to challenges. Explore Zara's professional ethos.");
+                    setTimeout(() => {
+                        window.dispatchEvent(new Event('show-safe-4-tooltip'));
+                        setTimeout(() => {
+                            window.dispatchEvent(new Event('hide-safe-4-tooltip'));
+                        }, 5000);
+                    }, 1500); // Small delay for effect
+                    setShowBubble(true);
+                    setIsTyping(true);
+
                     // Resume hovering (Bobbing Motion) at new position
                     controls.start({
                         top: ["32%", "33%", "32%"],
