@@ -38,6 +38,9 @@ export const Tower: React.FC = () => {
     const [showSafe2Tooltip, setShowSafe2Tooltip] = useState(false);
     const [showSafe3Tooltip, setShowSafe3Tooltip] = useState(false);
     const [showSafe4Tooltip, setShowSafe4Tooltip] = useState(false);
+    const [showSafe5Tooltip, setShowSafe5Tooltip] = useState(false);
+    const [showSafe6Tooltip, setShowSafe6Tooltip] = useState(false);
+    const [showSafe7Tooltip, setShowSafe7Tooltip] = useState(false);
     const [activeScroll, setActiveScroll] = useState<string | null>(null);
 
     useEffect(() => {
@@ -49,6 +52,12 @@ export const Tower: React.FC = () => {
         const handleHide3 = () => setShowSafe3Tooltip(false);
         const handleShow4 = () => setShowSafe4Tooltip(true);
         const handleHide4 = () => setShowSafe4Tooltip(false);
+        const handleShow5 = () => setShowSafe5Tooltip(true);
+        const handleHide5 = () => setShowSafe5Tooltip(false);
+        const handleShow6 = () => setShowSafe6Tooltip(true);
+        const handleHide6 = () => setShowSafe6Tooltip(false);
+        const handleShow7 = () => setShowSafe7Tooltip(true);
+        const handleHide7 = () => setShowSafe7Tooltip(false);
 
         window.addEventListener('show-safe-tooltip', handleShow);
         window.addEventListener('hide-safe-tooltip', handleHide);
@@ -58,6 +67,12 @@ export const Tower: React.FC = () => {
         window.addEventListener('hide-safe-3-tooltip', handleHide3);
         window.addEventListener('show-safe-4-tooltip', handleShow4);
         window.addEventListener('hide-safe-4-tooltip', handleHide4);
+        window.addEventListener('show-safe-5-tooltip', handleShow5);
+        window.addEventListener('hide-safe-5-tooltip', handleHide5);
+        window.addEventListener('show-safe-6-tooltip', handleShow6);
+        window.addEventListener('hide-safe-6-tooltip', handleHide6);
+        window.addEventListener('show-safe-7-tooltip', handleShow7);
+        window.addEventListener('hide-safe-7-tooltip', handleHide7);
 
         return () => {
             window.removeEventListener('show-safe-tooltip', handleShow);
@@ -68,6 +83,12 @@ export const Tower: React.FC = () => {
             window.removeEventListener('hide-safe-3-tooltip', handleHide3);
             window.removeEventListener('show-safe-4-tooltip', handleShow4);
             window.removeEventListener('hide-safe-4-tooltip', handleHide4);
+            window.removeEventListener('show-safe-5-tooltip', handleShow5);
+            window.removeEventListener('hide-safe-5-tooltip', handleHide5);
+            window.removeEventListener('show-safe-6-tooltip', handleShow6);
+            window.removeEventListener('hide-safe-6-tooltip', handleHide6);
+            window.removeEventListener('show-safe-7-tooltip', handleShow7);
+            window.removeEventListener('hide-safe-7-tooltip', handleHide7);
         };
     }, []);
 
@@ -196,9 +217,33 @@ export const Tower: React.FC = () => {
                 }
             }));
         }
-        if (activeScroll === 'safe-5') setIsFifthSafeOpen(false);
-        if (activeScroll === 'safe-6') setIsSixthSafeOpen(false);
-        if (activeScroll === 'safe-7') setIsSeventhSafeOpen(false);
+        if (activeScroll === 'safe-5') {
+            setIsFifthSafeOpen(false);
+            window.dispatchEvent(new CustomEvent('dragon-say', {
+                detail: {
+                    text: "A strong academic background underpins her practical skills.",
+                    nextAction: "move-to-safe-6"
+                }
+            }));
+        }
+        if (activeScroll === 'safe-6') {
+            setIsSixthSafeOpen(false);
+            window.dispatchEvent(new CustomEvent('dragon-say', {
+                detail: {
+                    text: "An active learner is a growing asset. Zara consistently refines her craft.",
+                    nextAction: "move-to-safe-7"
+                }
+            }));
+        }
+        if (activeScroll === 'safe-7') {
+            setIsSeventhSafeOpen(false);
+            window.dispatchEvent(new CustomEvent('dragon-say', {
+                detail: {
+                    text: "These endeavors, while personal, demonstrate Zara's innate drive to build and innovate.",
+                    // nextAction: "end-sequence" ??
+                }
+            }));
+        }
         setActiveScroll(null);
     };
 
@@ -330,6 +375,9 @@ export const Tower: React.FC = () => {
                             if (newState) setActiveScroll('safe-5');
                         }}
                     >
+                        <div className={`${styles.safeTooltip} ${showSafe5Tooltip ? styles.visible : ''}`}>
+                            Click Me!
+                        </div>
                         <Image
                             src={isFifthSafeOpen ? "/safethreeopen.svg" : "/safethreeclosed.svg"}
                             alt="Fifth Safe"
@@ -348,6 +396,9 @@ export const Tower: React.FC = () => {
                             if (newState) setActiveScroll('safe-6');
                         }}
                     >
+                        <div className={`${styles.safeTooltip} ${showSafe6Tooltip ? styles.visible : ''}`}>
+                            Click Me!
+                        </div>
                         <Image
                             src={isSixthSafeOpen ? "/safethreeopen.svg" : "/safethreeclosed.svg"}
                             alt="Sixth Safe"
@@ -366,6 +417,9 @@ export const Tower: React.FC = () => {
                             if (newState) setActiveScroll('safe-7');
                         }}
                     >
+                        <div className={`${styles.safeTooltip} ${showSafe7Tooltip ? styles.visible : ''}`}>
+                            Click Me!
+                        </div>
                         <Image
                             src={isSeventhSafeOpen ? "/safethreeopen.svg" : "/safethreeclosed.svg"}
                             alt="Seventh Safe"
@@ -495,7 +549,47 @@ export const Tower: React.FC = () => {
                         </ul>
                     </>
                 )}
-                {activeScroll !== 'safe-1' && activeScroll !== 'safe-2' && activeScroll !== 'safe-3' && activeScroll !== 'safe-4' && activeScroll && (
+                {activeScroll === 'safe-5' && (
+                    <>
+                        <div className={detailStyles.jobTitle}>Education</div>
+                        <div style={{ marginBottom: '1rem' }}></div>
+                        <ul className={detailStyles.jobDetails}>
+                            <li className={detailStyles.jobDetailItem}>
+                                Bachelor of Science in Software Engineering (4 years) from <strong>Virtual University of Pakistan</strong>
+                            </li>
+                        </ul>
+                    </>
+                )}
+                {activeScroll === 'safe-6' && (
+                    <>
+                        <div className={detailStyles.jobTitle}>Certifications & Continuous Learning</div>
+                        <div style={{ marginBottom: '1rem' }}></div>
+                        <ul className={detailStyles.jobDetails}>
+                            <li className={detailStyles.jobDetailItem}>Programming with JavaScript</li>
+                            <li className={detailStyles.jobDetailItem}>React Native by Meta</li>
+                            <li className={detailStyles.jobDetailItem}>React Basics by Meta</li>
+                            <li className={detailStyles.jobDetailItem}>Version Control</li>
+                            <li className={detailStyles.jobDetailItem}>Introduction to Mobile Development</li>
+                            <li className={detailStyles.jobDetailItem}>Principles of UX/UI Design</li>
+                            <li className={detailStyles.jobDetailItem}>Google Prompting Essentials</li>
+                        </ul>
+                    </>
+                )}
+                {activeScroll === 'safe-7' && (
+                    <>
+                        <div className={detailStyles.jobTitle}>Personal Projects</div>
+                        <div style={{ marginBottom: '1rem' }}></div>
+                        <ul className={detailStyles.jobDetails}>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>BudgetMe - Personal Finance Tracking App</strong> (Brief description, GitHub Link)
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>Wellness Wise - AI health Android App</strong> (Brief description, GitHub Link)
+                            </li>
+                        </ul>
+                    </>
+                )}
+                {activeScroll !== 'safe-1' && activeScroll !== 'safe-2' && activeScroll !== 'safe-3' && activeScroll !== 'safe-4' && activeScroll !== 'safe-5' && activeScroll !== 'safe-6' && activeScroll !== 'safe-7' && activeScroll && (
                     <h2>Details for {activeScroll.replace('-', ' ')}</h2>
                 )}
             </DetailScrollModal>

@@ -224,6 +224,26 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                     setTimeout(() => {
                         window.dispatchEvent(new Event('hide-safe-3-tooltip'));
                     }, 5000);
+                } else if (nextDialogue.action === 'show-safe-4-tooltip') {
+                    window.dispatchEvent(new Event('show-safe-4-tooltip'));
+                    setTimeout(() => {
+                        window.dispatchEvent(new Event('hide-safe-4-tooltip'));
+                    }, 5000);
+                } else if (nextDialogue.action === 'show-safe-5-tooltip') {
+                    window.dispatchEvent(new Event('show-safe-5-tooltip'));
+                    setTimeout(() => {
+                        window.dispatchEvent(new Event('hide-safe-5-tooltip'));
+                    }, 5000);
+                } else if (nextDialogue.action === 'show-safe-6-tooltip') {
+                    window.dispatchEvent(new Event('show-safe-6-tooltip'));
+                    setTimeout(() => {
+                        window.dispatchEvent(new Event('hide-safe-6-tooltip'));
+                    }, 5000);
+                } else if (nextDialogue.action === 'show-safe-7-tooltip') {
+                    window.dispatchEvent(new Event('show-safe-7-tooltip'));
+                    setTimeout(() => {
+                        window.dispatchEvent(new Event('hide-safe-7-tooltip'));
+                    }, 5000);
                 }
 
                 setShowBubble(true);
@@ -310,6 +330,88 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                     // Resume hovering (Bobbing Motion) at new position
                     controls.start({
                         top: ["32%", "33%", "32%"],
+                        transition: {
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }
+                    });
+                });
+            } else if (pendingAction === 'move-to-safe-5') {
+                setPendingAction(null);
+                scrollToPosition(46);
+                controls.start({
+                    left: "35%",
+                    top: "45%",
+                    transition: { duration: 1.5, ease: "easeInOut" }
+                }).then(() => {
+                    setDialogueQueue([
+                        { text: "Here, we see Zara's continuous commitment to learning and personal growth." },
+                        { text: "The academic roots of her expertise. Click to view her qualifications.", action: 'show-safe-5-tooltip' }
+                    ]);
+                    setOverrideText("Every tower stands upon a solid foundation, built with dedication and foresight.");
+                    setShowBubble(true);
+                    setIsTyping(true);
+
+                    // Resume hovering (Bobbing Motion) at new position
+                    controls.start({
+                        top: ["45%", "46%", "45%"],
+                        transition: {
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }
+                    });
+                });
+            } else if (pendingAction === 'move-to-safe-6') {
+                setPendingAction(null);
+                scrollToPosition(58);
+                controls.start({
+                    left: "22%",
+                    top: "55%",
+                    transition: { duration: 1.5, ease: "easeInOut" }
+                }).then(() => {
+                    setOverrideText("Zara's dedication to staying current and expanding her knowledge. See her commitment!");
+                    setTimeout(() => {
+                        window.dispatchEvent(new Event('show-safe-6-tooltip'));
+                        setTimeout(() => {
+                            window.dispatchEvent(new Event('hide-safe-6-tooltip'));
+                        }, 5000);
+                    }, 1500); // Small delay
+                    setShowBubble(true);
+                    setIsTyping(true);
+
+                    // Resume hovering (Bobbing Motion) at new position
+                    controls.start({
+                        top: ["55%", "56%", "55%"],
+                        transition: {
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }
+                    });
+                });
+            } else if (pendingAction === 'move-to-safe-7') {
+                setPendingAction(null);
+                scrollToPosition(70);
+                controls.start({
+                    left: "35%",
+                    top: "69%",
+                    transition: { duration: 1.5, ease: "easeInOut" }
+                }).then(() => {
+                    setOverrideText("Beyond professional mandates, Zara explores her passion for creation. These projects showcase her initiative.");
+                    setTimeout(() => {
+                        window.dispatchEvent(new Event('show-safe-7-tooltip'));
+                        setTimeout(() => {
+                            window.dispatchEvent(new Event('hide-safe-7-tooltip'));
+                        }, 5000);
+                    }, 1500); // Small delay
+                    setShowBubble(true);
+                    setIsTyping(true);
+
+                    // Resume hovering (Bobbing Motion) at new position
+                    controls.start({
+                        top: ["69%", "70%", "69%"],
                         transition: {
                             duration: 2,
                             repeat: Infinity,
