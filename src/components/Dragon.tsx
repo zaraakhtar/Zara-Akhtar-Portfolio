@@ -181,6 +181,35 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
         }
     }, [currentDialogueIndex, controls]);
 
+    const scrollToPosition = (topPercent: number, duration: number = 2000) => {
+        const docHeight = document.documentElement.scrollHeight;
+        const targetY = (topPercent / 100) * docHeight;
+        const viewportHeight = window.innerHeight;
+        // Position target roughly at 1/3 down the screen for better visibility
+        const destinationY = Math.max(0, targetY - (viewportHeight * 0.3));
+        const startY = window.scrollY;
+        const distance = destinationY - startY;
+        let startTime: number | null = null;
+
+        function animation(currentTime: number) {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const run = easeInOutQuad(timeElapsed, startY, distance, duration);
+            window.scrollTo(0, run);
+            if (timeElapsed < duration) requestAnimationFrame(animation);
+        }
+
+        // Quadratic easing in/out
+        function easeInOutQuad(t: number, b: number, c: number, d: number) {
+            t /= d / 2;
+            if (t < 1) return c / 2 * t * t + b;
+            t--;
+            return -c / 2 * (t * (t - 2) - 1) + b;
+        }
+
+        requestAnimationFrame(animation);
+    };
+
     function handleNextDialogue() {
         if (overrideText) {
             // Check if there are more dialogues in the queue
@@ -208,6 +237,7 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
 
             if (pendingAction === 'move-to-safe-2') {
                 setPendingAction(null);
+                scrollToPosition(10);
                 controls.start({
                     left: "22%",
                     top: "10%",
@@ -235,14 +265,15 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                 });
             } else if (pendingAction === 'move-to-safe-3') {
                 setPendingAction(null);
+                scrollToPosition(20);
                 controls.start({
                     left: "35%", // Calculated to be to the left of the 3rd safe (which is at right 36.5%)
                     top: "20%",  // Calculated offset from safe top (29.5%) similar to safe 2
                     transition: { duration: 1.5, ease: "easeInOut" }
                 }).then(() => {
                     setDialogueQueue([
-                        { text: "These radiant crystals safeguard her most formidable skills." },
-                        { text: "The foundation of modern mobile development, infused with intelligent systems. Uncover the full list!", action: 'show-safe-3-tooltip' }
+                        { text: "This antient treasure box safeguards Zara's most formidable skills." },
+                        { text: "The foundation of modern mobile development, infused with intelligent systems. Click to uncover the list!", action: 'show-safe-3-tooltip' }
                     ]);
                     setOverrideText("Having witnessed her professional journey, now we delve into the very essence of Zara's capabilities.");
                     setShowBubble(true);
@@ -251,6 +282,24 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                     // Resume hovering (Bobbing Motion) at new position
                     controls.start({
                         top: ["20%", "21%", "20%"],
+                        transition: {
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }
+                    });
+                });
+            } else if (pendingAction === 'move-to-safe-4') {
+                setPendingAction(null);
+                scrollToPosition(34);
+                controls.start({
+                    left: "22%",
+                    top: "32%",
+                    transition: { duration: 1.5, ease: "easeInOut" }
+                }).then(() => {
+                    // Resume hovering (Bobbing Motion) at new position
+                    controls.start({
+                        top: ["32%", "33%", "32%"],
                         transition: {
                             duration: 2,
                             repeat: Infinity,

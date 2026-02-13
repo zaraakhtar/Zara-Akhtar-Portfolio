@@ -171,7 +171,15 @@ export const Tower: React.FC = () => {
                 }
             }));
         }
-        if (activeScroll === 'safe-3') setIsThirdSafeOpen(false);
+        if (activeScroll === 'safe-3') {
+            setIsThirdSafeOpen(false);
+            window.dispatchEvent(new CustomEvent('dragon-say', {
+                detail: {
+                    text: "Zara's technical command spans the entire mobile ecosystem, with a keen focus on performance and AI integration.",
+                    nextAction: "move-to-safe-4"
+                }
+            }));
+        }
         if (activeScroll === 'safe-4') setIsFourthSafeOpen(false);
         if (activeScroll === 'safe-5') setIsFifthSafeOpen(false);
         if (activeScroll === 'safe-6') setIsSixthSafeOpen(false);
