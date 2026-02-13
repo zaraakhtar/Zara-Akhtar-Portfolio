@@ -385,7 +385,26 @@ export const Tower: React.FC = () => {
                         </ul>
                     </>
                 )}
-                {activeScroll !== 'safe-1' && activeScroll && (
+                {activeScroll === 'safe-2' && (
+                    <>
+                        <div className={detailStyles.jobTitle}>Internship Mobile UI Developer</div>
+                        <div className={detailStyles.companyName}>
+                            at <a href="https://thewebsolutionsdevelopment.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>The Web Solutions</a>
+                        </div>
+                        <ul className={detailStyles.jobDetails}>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>Worked on the UI of an E-commerce app.</strong>
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>Ensured timely delivery of project milestones with high-quality, well-structured code.</strong>
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <strong>Independently resolved technical challenges, demonstrating strong problem-solving skills.</strong>
+                            </li>
+                        </ul>
+                    </>
+                )}
+                {activeScroll !== 'safe-1' && activeScroll !== 'safe-2' && activeScroll && (
                     <h2>Details for {activeScroll.replace('-', ' ')}</h2>
                 )}
             </DetailScrollModal>
