@@ -1,4 +1,4 @@
-import { StarryBackground, Tower, ScrollButtons } from "@/components";
+import { StarryBackground, Tower, ScrollButtons, BackgroundMusic } from "@/components";
 
 export default function Home() {
   return (
@@ -8,6 +8,7 @@ export default function Home() {
 
       {/* Fixed UI Elements */}
       <ScrollButtons />
+      <BackgroundMusic />
 
 
       {/* Tower - scrollable content */}
