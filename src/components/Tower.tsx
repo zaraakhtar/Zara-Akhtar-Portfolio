@@ -35,18 +35,25 @@ export const Tower: React.FC = () => {
 
     const [clouds, setClouds] = useState<CloudData[]>([]);
     const [showSafeTooltip, setShowSafeTooltip] = useState(false);
+    const [showSafe2Tooltip, setShowSafe2Tooltip] = useState(false);
     const [activeScroll, setActiveScroll] = useState<string | null>(null);
 
     useEffect(() => {
         const handleShow = () => setShowSafeTooltip(true);
         const handleHide = () => setShowSafeTooltip(false);
+        const handleShow2 = () => setShowSafe2Tooltip(true);
+        const handleHide2 = () => setShowSafe2Tooltip(false);
 
         window.addEventListener('show-safe-tooltip', handleShow);
         window.addEventListener('hide-safe-tooltip', handleHide);
+        window.addEventListener('show-safe-2-tooltip', handleShow2);
+        window.addEventListener('hide-safe-2-tooltip', handleHide2);
 
         return () => {
             window.removeEventListener('show-safe-tooltip', handleShow);
             window.removeEventListener('hide-safe-tooltip', handleHide);
+            window.removeEventListener('show-safe-2-tooltip', handleShow2);
+            window.removeEventListener('hide-safe-2-tooltip', handleHide2);
         };
     }, []);
 
@@ -139,7 +146,15 @@ export const Tower: React.FC = () => {
     }, []);
 
     const handleCloseModal = () => {
-        if (activeScroll === 'safe-1') setIsFirstSafeOpen(false);
+        if (activeScroll === 'safe-1') {
+            setIsFirstSafeOpen(false);
+            window.dispatchEvent(new CustomEvent('dragon-say', {
+                detail: {
+                    text: "Notice the depth of her AI implementation and end-to-end ownership. This is the caliber of professional you seek.",
+                    nextAction: "move-to-safe-2"
+                }
+            }));
+        }
         if (activeScroll === 'safe-2') setIsSecondSafeOpen(false);
         if (activeScroll === 'safe-3') setIsThirdSafeOpen(false);
         if (activeScroll === 'safe-4') setIsFourthSafeOpen(false);
@@ -214,6 +229,9 @@ export const Tower: React.FC = () => {
                             if (newState) setActiveScroll('safe-2');
                         }}
                     >
+                        <div className={`${styles.safeTooltip} ${showSafe2Tooltip ? styles.visible : ''}`}>
+                            Click Me!
+                        </div>
                         <Image
                             src={isSecondSafeOpen ? "/safeoneopen.svg" : "/safeoneclosed.svg"}
                             alt="Second Safe"

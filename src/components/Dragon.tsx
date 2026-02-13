@@ -16,6 +16,9 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
     const [currentDialogueIndex, setCurrentDialogueIndex] = useState(0);
     const [textScale, setTextScale] = useState(1);
     const [isTyping, setIsTyping] = useState(false); // Track if typing is in progress
+    const [pendingAction, setPendingAction] = useState<string | null>(null);
+
+    const [overrideText, setOverrideText] = useState<string | null>(null);
 
     const dialogues = [
         "Greetings, discerning visitor! Welcome to Zara's digital keep of innovation.",
@@ -26,8 +29,29 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
         "A testament to cutting-edge development and AI integration. Click to see the details!"
     ];
 
-    const currentText = dialogues[currentDialogueIndex];
+    const currentText = overrideText || dialogues[currentDialogueIndex];
     const controls = useAnimation();
+
+    // Listen for custom Dragon events
+    useEffect(() => {
+        const handleDragonSay = (e: CustomEvent) => {
+            if (typeof e.detail === 'string') {
+                setOverrideText(e.detail);
+                setPendingAction(null);
+            } else {
+                setOverrideText(e.detail.text);
+                setPendingAction(e.detail.nextAction);
+            }
+            setShowBubble(true);
+            setIsTyping(true);
+        };
+
+        window.addEventListener('dragon-say', handleDragonSay as EventListener);
+
+        return () => {
+            window.removeEventListener('dragon-say', handleDragonSay as EventListener);
+        };
+    }, []);
 
     // Wing flapping animation
     useEffect(() => {
@@ -101,7 +125,7 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
             window.removeEventListener('click', handleSkip);
             window.removeEventListener('keydown', handleSkip);
         };
-    }, [showBubble, isTyping, currentDialogueIndex]); // Dependencies for the closure
+    }, [showBubble, isTyping, currentDialogueIndex, overrideText]); // Dependencies for the closure
 
     // Handle Tooltip Timing for 3rd Dialogue
     useEffect(() => {
@@ -157,6 +181,32 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
     }, [currentDialogueIndex, controls]);
 
     function handleNextDialogue() {
+        if (overrideText) {
+            // If showing override text, just close it and reset
+            setShowBubble(false);
+            setOverrideText(null);
+
+            if (pendingAction === 'move-to-safe-2') {
+                setPendingAction(null);
+                controls.start({
+                    left: "22%",
+                    top: "10%",
+                    transition: { duration: 1.5, ease: "easeInOut" }
+                }).then(() => {
+                    setOverrideText("Even in early days, Zara demonstrated a strong foundation. Click for the details.");
+                    setTimeout(() => {
+                        window.dispatchEvent(new Event('show-safe-2-tooltip'));
+                        setTimeout(() => {
+                            window.dispatchEvent(new Event('hide-safe-2-tooltip'));
+                        }, 5000);
+                    }, 2500);
+                    setShowBubble(true);
+                    setIsTyping(true);
+                });
+            }
+            return;
+        }
+
         if (currentDialogueIndex < dialogues.length - 1) {
             setCurrentDialogueIndex(prev => prev + 1);
         } else if (showBubble) {

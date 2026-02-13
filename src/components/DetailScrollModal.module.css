@@ -224,6 +224,8 @@
         height: 72%;
         /* Increase height to fill bottom space */
         padding-top: 1rem;
+        top: 50%;
+        /* Revert to center for mobile */
     }
 
     .closeButton {
