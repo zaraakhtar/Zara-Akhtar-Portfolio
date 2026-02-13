@@ -18,10 +18,14 @@ export const ScrollButtons: React.FC = () => {
 
         window.addEventListener('show-cv-tooltip', handleShow);
         window.addEventListener('hide-cv-tooltip', handleHide);
+        window.addEventListener('show-contact-tooltip', handleShow);
+        window.addEventListener('hide-contact-tooltip', handleHide);
 
         return () => {
             window.removeEventListener('show-cv-tooltip', handleShow);
             window.removeEventListener('hide-cv-tooltip', handleHide);
+            window.removeEventListener('show-contact-tooltip', handleShow);
+            window.removeEventListener('hide-contact-tooltip', handleHide);
         };
     }, []);
 

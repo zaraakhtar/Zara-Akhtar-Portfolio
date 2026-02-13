@@ -42,6 +42,8 @@ export const Tower: React.FC = () => {
     const [showSafe6Tooltip, setShowSafe6Tooltip] = useState(false);
     const [showSafe7Tooltip, setShowSafe7Tooltip] = useState(false);
     const [activeScroll, setActiveScroll] = useState<string | null>(null);
+    const [isTourActive, setIsTourActive] = useState(true);
+    const [tourStep, setTourStep] = useState(1);
 
     useEffect(() => {
         const handleShow = () => setShowSafeTooltip(true);
@@ -59,6 +61,10 @@ export const Tower: React.FC = () => {
         const handleShow7 = () => setShowSafe7Tooltip(true);
         const handleHide7 = () => setShowSafe7Tooltip(false);
 
+        const handleTourCompleted = () => {
+            setIsTourActive(false);
+        };
+
         window.addEventListener('show-safe-tooltip', handleShow);
         window.addEventListener('hide-safe-tooltip', handleHide);
         window.addEventListener('show-safe-2-tooltip', handleShow2);
@@ -73,6 +79,7 @@ export const Tower: React.FC = () => {
         window.addEventListener('hide-safe-6-tooltip', handleHide6);
         window.addEventListener('show-safe-7-tooltip', handleShow7);
         window.addEventListener('hide-safe-7-tooltip', handleHide7);
+        window.addEventListener('tour-completed', handleTourCompleted);
 
         return () => {
             window.removeEventListener('show-safe-tooltip', handleShow);
@@ -89,6 +96,7 @@ export const Tower: React.FC = () => {
             window.removeEventListener('hide-safe-6-tooltip', handleHide6);
             window.removeEventListener('show-safe-7-tooltip', handleShow7);
             window.removeEventListener('hide-safe-7-tooltip', handleHide7);
+            window.removeEventListener('tour-completed', handleTourCompleted);
         };
     }, []);
 
@@ -183,66 +191,88 @@ export const Tower: React.FC = () => {
     const handleCloseModal = () => {
         if (activeScroll === 'safe-1') {
             setIsFirstSafeOpen(false);
-            window.dispatchEvent(new CustomEvent('dragon-say', {
-                detail: {
-                    text: "Notice the depth of her AI implementation and end-to-end ownership. This is the caliber of professional you seek.",
-                    nextAction: "move-to-safe-2"
-                }
-            }));
+            // Only trigger next step if in tour mode
+            if (isTourActive) {
+                setTourStep(2);
+                window.dispatchEvent(new CustomEvent('dragon-say', {
+                    detail: {
+                        text: "Notice the depth of her AI implementation and end-to-end ownership. This is the caliber of professional you seek.",
+                        nextAction: "move-to-safe-2"
+                    }
+                }));
+            }
         }
         if (activeScroll === 'safe-2') {
             setIsSecondSafeOpen(false);
-            window.dispatchEvent(new CustomEvent('dragon-say', {
-                detail: {
-                    text: "From the outset, a commitment to quality and problem-solving has defined Zara's approach.",
-                    nextAction: "move-to-safe-3"
-                }
-            }));
+            if (isTourActive) {
+                setTourStep(3);
+                window.dispatchEvent(new CustomEvent('dragon-say', {
+                    detail: {
+                        text: "From the outset, a commitment to quality and problem-solving has defined Zara's approach.",
+                        nextAction: "move-to-safe-3"
+                    }
+                }));
+            }
         }
         if (activeScroll === 'safe-3') {
             setIsThirdSafeOpen(false);
-            window.dispatchEvent(new CustomEvent('dragon-say', {
-                detail: {
-                    text: "Zara's technical command spans the entire mobile ecosystem, with a keen focus on performance and AI integration.",
-                    nextAction: "move-to-safe-4"
-                }
-            }));
+            if (isTourActive) {
+                setTourStep(4);
+                window.dispatchEvent(new CustomEvent('dragon-say', {
+                    detail: {
+                        text: "Zara's technical command spans the entire mobile ecosystem, with a keen focus on performance and AI integration.",
+                        nextAction: "move-to-safe-4"
+                    }
+                }));
+            }
         }
         if (activeScroll === 'safe-4') {
             setIsFourthSafeOpen(false);
-            window.dispatchEvent(new CustomEvent('dragon-say', {
-                detail: {
-                    text: "A skilled developer is also a strategic thinker and a valuable team member. Zara embodies these qualities.",
-                    nextAction: "move-to-safe-5" // Assuming next safe action
-                }
-            }));
+            if (isTourActive) {
+                setTourStep(5);
+                window.dispatchEvent(new CustomEvent('dragon-say', {
+                    detail: {
+                        text: "A skilled developer is also a strategic thinker and a valuable team member. Zara embodies these qualities.",
+                        nextAction: "move-to-safe-5" // Assuming next safe action
+                    }
+                }));
+            }
         }
         if (activeScroll === 'safe-5') {
             setIsFifthSafeOpen(false);
-            window.dispatchEvent(new CustomEvent('dragon-say', {
-                detail: {
-                    text: "A strong academic background underpins her practical skills.",
-                    nextAction: "move-to-safe-6"
-                }
-            }));
+            if (isTourActive) {
+                setTourStep(6);
+                window.dispatchEvent(new CustomEvent('dragon-say', {
+                    detail: {
+                        text: "A strong academic background underpins her practical skills.",
+                        nextAction: "move-to-safe-6"
+                    }
+                }));
+            }
         }
         if (activeScroll === 'safe-6') {
             setIsSixthSafeOpen(false);
-            window.dispatchEvent(new CustomEvent('dragon-say', {
-                detail: {
-                    text: "An active learner is a growing asset. Zara consistently refines her craft.",
-                    nextAction: "move-to-safe-7"
-                }
-            }));
+            if (isTourActive) {
+                setTourStep(7);
+                window.dispatchEvent(new CustomEvent('dragon-say', {
+                    detail: {
+                        text: "An active learner is a growing asset. Zara consistently refines her craft.",
+                        nextAction: "move-to-safe-7"
+                    }
+                }));
+            }
         }
         if (activeScroll === 'safe-7') {
             setIsSeventhSafeOpen(false);
-            window.dispatchEvent(new CustomEvent('dragon-say', {
-                detail: {
-                    text: "These endeavors, while personal, demonstrate Zara's innate drive to build and innovate.",
-                    nextAction: "move-to-end-sequence"
-                }
-            }));
+            if (isTourActive) {
+                setTourStep(8); // Tour logic done, waiting for finale
+                window.dispatchEvent(new CustomEvent('dragon-say', {
+                    detail: {
+                        text: "These endeavors, while personal, demonstrate Zara's innate drive to build and innovate.",
+                        nextAction: "move-to-end-sequence"
+                    }
+                }));
+            }
         }
         setActiveScroll(null);
     };
@@ -286,6 +316,7 @@ export const Tower: React.FC = () => {
                     <div
                         className={styles.firstSafe}
                         onClick={() => {
+                            if (isTourActive && tourStep !== 1) return;
                             const newState = !isFirstSafeOpen;
                             setIsFirstSafeOpen(newState);
                             if (newState) setActiveScroll('safe-1');
@@ -307,6 +338,7 @@ export const Tower: React.FC = () => {
                     <div
                         className={styles.secondSafe}
                         onClick={() => {
+                            if (isTourActive && tourStep !== 2) return;
                             const newState = !isSecondSafeOpen;
                             setIsSecondSafeOpen(newState);
                             if (newState) setActiveScroll('safe-2');
@@ -328,6 +360,7 @@ export const Tower: React.FC = () => {
                     <div
                         className={styles.thirdSafe}
                         onClick={() => {
+                            if (isTourActive && tourStep !== 3) return;
                             const newState = !isThirdSafeOpen;
                             setIsThirdSafeOpen(newState);
                             if (newState) setActiveScroll('safe-3');
@@ -349,6 +382,7 @@ export const Tower: React.FC = () => {
                     <div
                         className={styles.fourthSafe}
                         onClick={() => {
+                            if (isTourActive && tourStep !== 4) return;
                             const newState = !isFourthSafeOpen;
                             setIsFourthSafeOpen(newState);
                             if (newState) setActiveScroll('safe-4');
@@ -370,6 +404,7 @@ export const Tower: React.FC = () => {
                     <div
                         className={styles.fifthSafe}
                         onClick={() => {
+                            if (isTourActive && tourStep !== 5) return;
                             const newState = !isFifthSafeOpen;
                             setIsFifthSafeOpen(newState);
                             if (newState) setActiveScroll('safe-5');
@@ -391,6 +426,7 @@ export const Tower: React.FC = () => {
                     <div
                         className={styles.sixthSafe}
                         onClick={() => {
+                            if (isTourActive && tourStep !== 6) return;
                             const newState = !isSixthSafeOpen;
                             setIsSixthSafeOpen(newState);
                             if (newState) setActiveScroll('safe-6');
@@ -412,6 +448,7 @@ export const Tower: React.FC = () => {
                     <div
                         className={styles.seventhSafe}
                         onClick={() => {
+                            if (isTourActive && tourStep !== 7) return;
                             const newState = !isSeventhSafeOpen;
                             setIsSeventhSafeOpen(newState);
                             if (newState) setActiveScroll('safe-7');
@@ -565,13 +602,41 @@ export const Tower: React.FC = () => {
                         <div className={detailStyles.jobTitle}>Certifications & Continuous Learning</div>
                         <div style={{ marginBottom: '1rem' }}></div>
                         <ul className={detailStyles.jobDetails}>
-                            <li className={detailStyles.jobDetailItem}>Programming with JavaScript</li>
-                            <li className={detailStyles.jobDetailItem}>React Native by Meta</li>
-                            <li className={detailStyles.jobDetailItem}>React Basics by Meta</li>
-                            <li className={detailStyles.jobDetailItem}>Version Control</li>
-                            <li className={detailStyles.jobDetailItem}>Introduction to Mobile Development</li>
-                            <li className={detailStyles.jobDetailItem}>Principles of UX/UI Design</li>
-                            <li className={detailStyles.jobDetailItem}>Google Prompting Essentials</li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <a href="https://www.coursera.org/account/accomplishments/verify/8YRQUR2CVG76" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
+                                    Programming with JavaScript
+                                </a>
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <a href="https://www.coursera.org/account/accomplishments/verify/K1V1IZ1OREXI?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
+                                    React Native by Meta
+                                </a>
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <a href="https://www.coursera.org/account/accomplishments/verify/R7HNU2NBR6CG?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
+                                    React Basics by Meta
+                                </a>
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <a href="https://www.coursera.org/account/accomplishments/verify/OIISQCMJHFMT?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
+                                    Version Control
+                                </a>
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <a href="https://www.coursera.org/account/accomplishments/verify/DAO11ADDE2LL" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
+                                    Introduction to Mobile Development
+                                </a>
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <a href="https://www.coursera.org/account/accomplishments/verify/4R7NF1XI6ES8?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
+                                    Principles of UX/UI Design
+                                </a>
+                            </li>
+                            <li className={detailStyles.jobDetailItem}>
+                                <a href="https://www.coursera.org/account/accomplishments/specialization/C32LM8BOJW8X" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
+                                    Google Prompting Essentials
+                                </a>
+                            </li>
                         </ul>
                     </>
                 )}
@@ -581,10 +646,14 @@ export const Tower: React.FC = () => {
                         <div style={{ marginBottom: '1rem' }}></div>
                         <ul className={detailStyles.jobDetails}>
                             <li className={detailStyles.jobDetailItem}>
-                                <strong>BudgetMe - Personal Finance Tracking App</strong> (Brief description, GitHub Link)
+                                <a href="https://github.com/zaraakhtar/budgeting-app" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
+                                    <strong>BudgetMe - Personal Finance Tracking App</strong>
+                                </a>
                             </li>
                             <li className={detailStyles.jobDetailItem}>
-                                <strong>Wellness Wise - AI health Android App</strong> (Brief description, GitHub Link)
+                                <a href="https://github.com/zaraakhtar/WellnessWise" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
+                                    <strong>Wellness Wise - AI health Android App</strong>
+                                </a>
                             </li>
                         </ul>
                     </>

@@ -235,15 +235,27 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                         window.dispatchEvent(new Event('hide-safe-5-tooltip'));
                     }, 5000);
                 } else if (nextDialogue.action === 'show-safe-6-tooltip') {
-                    window.dispatchEvent(new Event('show-safe-6-tooltip'));
-                    setTimeout(() => {
-                        window.dispatchEvent(new Event('hide-safe-6-tooltip'));
-                    }, 5000);
                 } else if (nextDialogue.action === 'show-safe-7-tooltip') {
                     window.dispatchEvent(new Event('show-safe-7-tooltip'));
                     setTimeout(() => {
                         window.dispatchEvent(new Event('hide-safe-7-tooltip'));
                     }, 5000);
+                } else if (nextDialogue.action === 'fly-away') {
+                    // Wait for reading time then fly away
+                    setTimeout(() => {
+                        setShowBubble(false);
+                        window.dispatchEvent(new Event('hide-cv-tooltip'));
+                        window.dispatchEvent(new Event('hide-contact-tooltip'));
+                        window.dispatchEvent(new Event('hide-safe-tooltip'));
+
+                        controls.start({
+                            top: "-50%",
+                            left: "120%",
+                            transition: { duration: 5, ease: "easeInOut" }
+                        }).then(() => {
+                            window.dispatchEvent(new Event('tour-completed'));
+                        });
+                    }, 6000); // 4000ms read time + 2000ms extra wait
                 }
 
                 setShowBubble(true);
@@ -254,6 +266,11 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
             // If showing override text and queue is empty, just close it and reset
             setShowBubble(false);
             setOverrideText(null);
+
+            // Added logic to hide tooltips when override text sequence finishes (This fixes the end sequence issue)
+            window.dispatchEvent(new Event('hide-cv-tooltip'));
+            window.dispatchEvent(new Event('hide-contact-tooltip'));
+            window.dispatchEvent(new Event('hide-safe-tooltip'));
 
             if (pendingAction === 'move-to-safe-2') {
                 setPendingAction(null);
@@ -432,7 +449,8 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
 
                     setDialogueQueue([
                         { text: "Her journey has prepared her for your most challenging mobile development needs." },
-                        { text: "If you seek to add a truly skilled and proactive developer to your team, now is the moment to connect!" }
+                        { text: "If you seek to add a truly skilled and proactive developer to your team, now is the moment to connect!" },
+                        { text: "Feel free to explore the tower. I'll be going! It's dinner time!", action: 'fly-away' }
                     ]);
                     setOverrideText("You have witnessed the breadth and depth of Zara's expertise, from impactful projects to her continuous growth.");
                     setShowBubble(true);
@@ -440,9 +458,9 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
 
                     // Resume hovering (Bobbing Motion) at new position
                     controls.start({
-                        top: ["40%", "41%", "40%"],
+                        top: ["48%", "49%", "48%"],
                         transition: {
-                            duration: 2,
+                            duration: 5,
                             repeat: Infinity,
                             ease: "easeInOut"
                         }
@@ -460,9 +478,8 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
             setShowBubble(false);
             window.dispatchEvent(new Event('hide-safe-tooltip'));
 
-            setTimeout(() => {
-                window.dispatchEvent(new Event('hide-cv-tooltip'));
-            }, 2000);
+            window.dispatchEvent(new Event('hide-cv-tooltip'));
+            window.dispatchEvent(new Event('hide-contact-tooltip'));
 
             // Dragon stays there or flies away? 
             // For now, let's just make it hover there or maybe fly up/away?
