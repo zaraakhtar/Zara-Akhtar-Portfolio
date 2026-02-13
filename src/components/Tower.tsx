@@ -240,7 +240,7 @@ export const Tower: React.FC = () => {
             window.dispatchEvent(new CustomEvent('dragon-say', {
                 detail: {
                     text: "These endeavors, while personal, demonstrate Zara's innate drive to build and innovate.",
-                    // nextAction: "end-sequence" ??
+                    nextAction: "move-to-end-sequence"
                 }
             }));
         }

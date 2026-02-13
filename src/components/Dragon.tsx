@@ -419,6 +419,35 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                         }
                     });
                 });
+            } else if (pendingAction === 'move-to-end-sequence') {
+                setPendingAction(null);
+                scrollToPosition(50);
+                controls.start({
+                    left: "25%",
+                    top: "48%",
+                    width: "35%",
+                    transition: { duration: 2, ease: "easeInOut" }
+                }).then(() => {
+                    window.dispatchEvent(new Event('show-cv-tooltip'));
+
+                    setDialogueQueue([
+                        { text: "Her journey has prepared her for your most challenging mobile development needs." },
+                        { text: "If you seek to add a truly skilled and proactive developer to your team, now is the moment to connect!" }
+                    ]);
+                    setOverrideText("You have witnessed the breadth and depth of Zara's expertise, from impactful projects to her continuous growth.");
+                    setShowBubble(true);
+                    setIsTyping(true);
+
+                    // Resume hovering (Bobbing Motion) at new position
+                    controls.start({
+                        top: ["40%", "41%", "40%"],
+                        transition: {
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }
+                    });
+                });
             }
             return;
         }
@@ -429,8 +458,11 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
             // Only trigger end sequence if bubble is still showing
             // End sequence - Fly to First Safe
             setShowBubble(false);
-            window.dispatchEvent(new Event('hide-cv-tooltip'));
             window.dispatchEvent(new Event('hide-safe-tooltip'));
+
+            setTimeout(() => {
+                window.dispatchEvent(new Event('hide-cv-tooltip'));
+            }, 2000);
 
             // Dragon stays there or flies away? 
             // For now, let's just make it hover there or maybe fly up/away?
