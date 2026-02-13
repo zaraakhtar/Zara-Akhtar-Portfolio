@@ -46,6 +46,14 @@ export const Tower: React.FC = () => {
     const [tourStep, setTourStep] = useState(1);
 
     useEffect(() => {
+        // Force scroll to top on load/refresh to ensure dragon start position is visible
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         const handleShow = () => setShowSafeTooltip(true);
         const handleHide = () => setShowSafeTooltip(false);
         const handleShow2 = () => setShowSafe2Tooltip(true);
