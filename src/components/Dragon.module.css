@@ -1,0 +1,56 @@
+.dragonContainer {
+    position: relative;
+    width: 100%;
+    /* Container height will be defined by the relative child (wingsDown) */
+}
+
+/* Base style for both images */
+.dragonImage {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.5));
+    display: block;
+    /* Removes bottom spacing for inline elements */
+}
+
+.wingsDown {
+    position: relative;
+    /* This image sets the container height */
+    animation: wingsDownAnim 0.4s infinite steps(1);
+}
+
+.wingsUp {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* Ensure it overlays perfectly */
+    width: 100%;
+    height: auto;
+    animation: wingsUpAnim 0.4s infinite steps(1);
+}
+
+@keyframes wingsUpAnim {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    50.01%,
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes wingsDownAnim {
+
+    0%,
+    50% {
+        opacity: 0;
+    }
+
+    50.01%,
+    100% {
+        opacity: 1;
+    }
+}

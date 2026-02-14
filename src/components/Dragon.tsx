@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import Image from 'next/image';
+import styles from './Dragon.module.css';
 import DialogueBubble from './DialogueBubble';
 
 interface DragonProps {
@@ -12,7 +13,6 @@ interface DragonProps {
 }
 
 const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
-    const [wingsUp, setWingsUp] = useState(true);
     const [showBubble, setShowBubble] = useState(false);
     const [currentDialogueIndex, setCurrentDialogueIndex] = useState(0);
     const [textScale, setTextScale] = useState(1);
@@ -53,15 +53,6 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
         return () => {
             window.removeEventListener('dragon-say', handleDragonSay as EventListener);
         };
-    }, []);
-
-    // Wing flapping animation
-    useEffect(() => {
-        const flapInterval = setInterval(() => {
-            setWingsUp((prev) => !prev);
-        }, 200); // Adjust speed of flapping here
-
-        return () => clearInterval(flapInterval);
     }, []);
 
     // Flight path animation
@@ -503,18 +494,27 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                 pointerEvents: 'none' // Let clicks pass through unless dragon is interactive
             }}
         >
-            <Image
-                src={wingsUp ? "/dragonwingsup.png" : "/dragonwingsdown.png"}
-                alt="Dragon"
-                width={500}
-                height={500}
-                priority
-                style={{
-                    width: '100%',
-                    height: 'auto',
-                    filter: 'drop-shadow(0 10px 10px rgba(0,0,0,0.5))'
-                }}
-            />
+            <div className={styles.dragonContainer}>
+                {/* Wings Down - Static relative image that defines the size */}
+                <Image
+                    src="/dragonwingsdown.png"
+                    alt="Dragon"
+                    width={500}
+                    height={500}
+                    priority
+                    className={`${styles.dragonImage} ${styles.wingsDown}`}
+                />
+
+                {/* Wings Up - Absolute overlay that toggles visibility via CSS animation */}
+                <Image
+                    src="/dragonwingsup.png"
+                    alt="Dragon"
+                    width={500}
+                    height={500}
+                    priority
+                    className={`${styles.dragonImage} ${styles.wingsUp}`}
+                />
+            </div>
             <div className="absolute top-[30%] left-[30%] transform -translate-x-1/2 -translate-y-full">
                 <DialogueBubble
                     text={currentText}
