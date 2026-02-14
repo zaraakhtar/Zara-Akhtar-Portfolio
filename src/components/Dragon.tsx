@@ -501,7 +501,6 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                     alt="Dragon"
                     width={500}
                     height={500}
-                    priority
                     className={`${styles.dragonImage} ${styles.wingsDown}`}
                 />
 
@@ -511,7 +510,6 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                     alt="Dragon"
                     width={500}
                     height={500}
-                    priority
                     className={`${styles.dragonImage} ${styles.wingsUp}`}
                 />
             </div>

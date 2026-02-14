@@ -487,7 +487,6 @@ export const Tower: React.FC = () => {
                     width={500}
                     height={300}
                     className={styles.bushImage}
-                    priority
                 />
             </div>
 
@@ -499,7 +498,6 @@ export const Tower: React.FC = () => {
                     width={500}
                     height={300}
                     className={styles.bushImage}
-                    priority
                 />
             </div>
             {/* Modal Overlay for Scrolls */}
