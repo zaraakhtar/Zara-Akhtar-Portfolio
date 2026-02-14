@@ -15,7 +15,7 @@ interface DialogueBubbleProps {
 }
 
 const DialogueBubble: React.FC<DialogueBubbleProps> = ({
-    text,
+    text = "",
     isVisible,
     scale = 1, // Default scale to 1
     onComplete,

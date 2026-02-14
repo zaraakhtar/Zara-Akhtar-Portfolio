@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import Image from 'next/image';
 import styles from './Dragon.module.css';
@@ -20,6 +20,9 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
     const [pendingAction, setPendingAction] = useState<string | null>(null);
     const [dialogueQueue, setDialogueQueue] = useState<{ text: string, action?: string }[]>([]);
 
+    // Ref to hold the auto-advance timeout to prevent race conditions
+    const autoAdvanceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
     const [overrideText, setOverrideText] = useState<string | null>(null);
 
     const dialogues = [
@@ -31,12 +34,18 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
         "A testament to cutting-edge development and AI integration. Click to see the details!"
     ];
 
-    const currentText = overrideText || dialogues[currentDialogueIndex];
+    const currentText = overrideText || dialogues[currentDialogueIndex] || "";
     const controls = useAnimation();
 
     // Listen for custom Dragon events
     useEffect(() => {
         const handleDragonSay = (e: CustomEvent) => {
+            // Clear any pending auto-advance when external event interrupts
+            if (autoAdvanceTimeoutRef.current) {
+                clearTimeout(autoAdvanceTimeoutRef.current);
+                autoAdvanceTimeoutRef.current = null;
+            }
+
             if (typeof e.detail === 'string') {
                 setOverrideText(e.detail);
                 setPendingAction(null);
@@ -52,6 +61,15 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
 
         return () => {
             window.removeEventListener('dragon-say', handleDragonSay as EventListener);
+        };
+    }, []);
+
+    // Cleanup timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (autoAdvanceTimeoutRef.current) {
+                clearTimeout(autoAdvanceTimeoutRef.current);
+            }
         };
     }, []);
 
@@ -169,6 +187,16 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
             }).then(() => {
                 setTextScale(1 / 0.65);
                 setShowBubble(true);
+
+                // Resume hovering (Bobbing Motion) at new position
+                controls.start({
+                    top: ["3%", "4%", "3%"],
+                    transition: {
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }
+                });
             });
         }
     }, [currentDialogueIndex, controls]);
@@ -203,6 +231,12 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
     };
 
     function handleNextDialogue() {
+        // Clear any pending auto-advance
+        if (autoAdvanceTimeoutRef.current) {
+            clearTimeout(autoAdvanceTimeoutRef.current);
+            autoAdvanceTimeoutRef.current = null;
+        }
+
         if (overrideText) {
             // Check if there are more dialogues in the queue
             if (dialogueQueue.length > 0) {
@@ -463,7 +497,10 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
         }
 
         if (currentDialogueIndex < dialogues.length - 1) {
-            setCurrentDialogueIndex(prev => prev + 1);
+            setCurrentDialogueIndex(prev => {
+                if (prev < dialogues.length - 1) return prev + 1;
+                return prev;
+            });
         } else if (showBubble) {
             // Only trigger end sequence if bubble is still showing
             // End sequence - Fly to First Safe
@@ -513,7 +550,7 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                     className={`${styles.dragonImage} ${styles.wingsUp}`}
                 />
             </div>
-            <div className="absolute top-[30%] left-[30%] transform -translate-x-1/2 -translate-y-full">
+            <div className={`absolute ${textScale === 1 ? 'top-[20%]' : '-top-[1%]'} left-[30%] transform -translate-x-1/2 -translate-y-full`}>
                 <DialogueBubble
                     text={currentText}
                     isVisible={showBubble}
@@ -526,6 +563,7 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                         const timeoutId = setTimeout(() => {
                             handleNextDialogue();
                         }, currentDialogueIndex === dialogues.length - 1 ? 3000 : 2000); // Wait time
+                        autoAdvanceTimeoutRef.current = timeoutId;
                         return () => clearTimeout(timeoutId);
                     }}
                 />
