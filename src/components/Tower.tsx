@@ -657,17 +657,31 @@ export const Tower: React.FC = () => {
                     <>
                         <div className={detailStyles.jobTitle}>Personal Projects</div>
                         <div style={{ marginBottom: '1rem' }}></div>
+
+                        {/* BudgetMe Project */}
+                        <div style={{ width: '100%', textAlign: 'left', fontWeight: 'bold', marginBottom: '0.5rem', fontSize: '1.1rem', color: '#3d2b1f' }}>
+                            BudgetMe – Personal Finance Tracking App - <a href="https://github.com/zaraakhtar/budgeting-app" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#573a1e' }}>GitHub Link</a>
+                        </div>
+                        <ul className={detailStyles.jobDetails} style={{ marginBottom: '1.5rem' }}>
+                            <li className={detailStyles.jobDetailItem}>Built a cross-platform budgeting app using React Native Expo for tracking income, expenses, and balance.</li>
+                            <li className={detailStyles.jobDetailItem}>Implemented secure user authentication and login with Clerk.com.</li>
+                            <li className={detailStyles.jobDetailItem}>Integrated Neon.tech and Upstash for efficient data storage and management by user ID.</li>
+                            <li className={detailStyles.jobDetailItem}>Developed the backend with JavaScript and SQL, hosted on Railway for real-time financial calculations.</li>
+                            <li className={detailStyles.jobDetailItem}>Designed an intuitive UI using React Native and CSS for smooth and engaging user experience.</li>
+                            <li className={detailStyles.jobDetailItem}>Ensured accurate balance summaries and categorized expense tracking for better financial insights.</li>
+                        </ul>
+
+                        {/* WellnessWise Project */}
+                        <div style={{ width: '100%', textAlign: 'left', fontWeight: 'bold', marginBottom: '0.5rem', fontSize: '1.1rem', color: '#3d2b1f' }}>
+                            WellnessWise - AI Health Android App - <a href="https://github.com/zaraakhtar/WellnessWise" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: '#573a1e' }}>GitHub Link</a>
+                        </div>
                         <ul className={detailStyles.jobDetails}>
-                            <li className={detailStyles.jobDetailItem}>
-                                <a href="https://github.com/zaraakhtar/budgeting-app" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
-                                    <strong>BudgetMe - Personal Finance Tracking App</strong>
-                                </a>
-                            </li>
-                            <li className={detailStyles.jobDetailItem}>
-                                <a href="https://github.com/zaraakhtar/WellnessWise" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
-                                    <strong>Wellness Wise - AI health Android App</strong>
-                                </a>
-                            </li>
+                            <li className={detailStyles.jobDetailItem}>Developed a mobile health application using Kotlin and Jetpack Compose with Firebase backend and TensorFlow Lite for ML integration.</li>
+                            <li className={detailStyles.jobDetailItem}>Implemented an AI-based health prediction system that analyzes user vitals, medical history, and lifestyle data.</li>
+                            <li className={detailStyles.jobDetailItem}>Built real-time health monitoring with wearable device integration and automated alerts for health risk indicators.</li>
+                            <li className={detailStyles.jobDetailItem}>Created interactive data visualizations for health trends and predictive analytics.</li>
+                            <li className={detailStyles.jobDetailItem}>Integrated secure user authentication with Email verification and comprehensive health profile management.</li>
+                            <li className={detailStyles.jobDetailItem}>Designed a personalized health recommendations system based on ML-driven risk assessments for chronic diseases.</li>
                         </ul>
                     </>
                 )}
