@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
+import Image from 'next/image';
 import DialogueBubble from './DialogueBubble';
 
 interface DragonProps {
@@ -502,13 +503,16 @@ const Dragon: React.FC<DragonProps> = ({ flightPath = 'enter' }) => {
                 pointerEvents: 'none' // Let clicks pass through unless dragon is interactive
             }}
         >
-            <img
-                src={wingsUp ? "/dragonwingsup.svg" : "/dragonwingsdown.svg"}
+            <Image
+                src={wingsUp ? "/dragonwingsup.png" : "/dragonwingsdown.png"}
                 alt="Dragon"
+                width={500}
+                height={500}
+                priority
                 style={{
                     width: '100%',
-                    height: '100%',
-                    filter: 'drop-shadow(0 10px 10px rgba(0,0,0,0.5))' // Add some shadow for depth
+                    height: 'auto',
+                    filter: 'drop-shadow(0 10px 10px rgba(0,0,0,0.5))'
                 }}
             />
             <div className="absolute top-[30%] left-[30%] transform -translate-x-1/2 -translate-y-full">

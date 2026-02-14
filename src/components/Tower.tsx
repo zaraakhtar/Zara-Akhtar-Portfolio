@@ -128,7 +128,7 @@ export const Tower: React.FC = () => {
                 direction,
                 zIndex: isFront ? 2 : 0,
                 opacity: 0.7 + Math.random() * 0.3,
-                imageSrc: "/longcloud.svg", // Fix path
+                imageSrc: "/longcloud.png", // Fix path
                 widthPercent: '30%', // Increase width
                 maxWidthPx: '300px', // Increase max width
             });
@@ -157,7 +157,7 @@ export const Tower: React.FC = () => {
                 direction: 'right', // Explicitly moving right
                 zIndex: isFront ? 2 : 0,
                 opacity: 0.6 + Math.random() * 0.4,
-                imageSrc: "/longcloud.svg", // Use the non-flipped long cloud
+                imageSrc: "/longcloud.png", // Use the non-flipped long cloud
                 widthPercent: '40%', // Example width for long clouds
                 maxWidthPx: '400px', // Example max width
             });
@@ -187,7 +187,7 @@ export const Tower: React.FC = () => {
                 direction: 'left', // Explicitly moving left
                 zIndex: isFront ? 2 : 0,
                 opacity: 0.6 + Math.random() * 0.4,
-                imageSrc: "/longcloudleft.svg", // Use the flipped long cloud
+                imageSrc: "/longcloudleft.png", // Use the flipped long cloud
                 widthPercent: '40%',
                 maxWidthPx: '400px',
             });
@@ -291,10 +291,12 @@ export const Tower: React.FC = () => {
                 <div className={styles.towerImageContainer}>
                     {/* Clouds */}
                     {clouds.map((cloud) => (
-                        <img
+                        <Image
                             key={cloud.id}
                             src={cloud.imageSrc}
                             alt=""
+                            width={400}
+                            height={150}
                             className={`${styles.cloud} ${cloud.zIndex === 2 ? styles.cloudFront : styles.cloudBehind} ${cloud.direction === 'right' ? styles.moveRight : styles.moveLeft}`}
                             style={{
                                 top: `${cloud.top}%`,
@@ -304,12 +306,13 @@ export const Tower: React.FC = () => {
                                 opacity: cloud.opacity,
                                 width: cloud.widthPercent,
                                 maxWidth: cloud.maxWidthPx,
+                                height: 'auto'
                             }}
                         />
                     ))}
 
                     <Image
-                        src="/fulltower.svg"
+                        src="/fulltower.png"
                         alt="Dragon Tower"
                         width={1440}
                         height={3855}
@@ -334,7 +337,7 @@ export const Tower: React.FC = () => {
                             Click Me!
                         </div>
                         <Image
-                            src={isFirstSafeOpen ? "/safeoneopen.svg" : "/safeoneclosed.svg"}
+                            src={isFirstSafeOpen ? "/safeoneopen.png" : "/safeoneclosed.png"}
                             alt="First Safe"
                             width={200}
                             height={200}
@@ -356,7 +359,7 @@ export const Tower: React.FC = () => {
                             Click Me!
                         </div>
                         <Image
-                            src={isSecondSafeOpen ? "/safeoneopen.svg" : "/safeoneclosed.svg"}
+                            src={isSecondSafeOpen ? "/safeoneopen.png" : "/safeoneclosed.png"}
                             alt="Second Safe"
                             width={200}
                             height={200}
@@ -378,7 +381,7 @@ export const Tower: React.FC = () => {
                             Click Me!
                         </div>
                         <Image
-                            src={isThirdSafeOpen ? "/safetwoopen.svg" : "/safetwoclosed.svg"}
+                            src={isThirdSafeOpen ? "/safetwoopen.png" : "/safetwoclosed.png"}
                             alt="Third Safe"
                             width={200}
                             height={200}
@@ -400,7 +403,7 @@ export const Tower: React.FC = () => {
                             Click Me!
                         </div>
                         <Image
-                            src={isFourthSafeOpen ? "/safetwoopen.svg" : "/safetwoclosed.svg"}
+                            src={isFourthSafeOpen ? "/safetwoopen.png" : "/safetwoclosed.png"}
                             alt="Fourth Safe"
                             width={200}
                             height={200}
@@ -422,7 +425,7 @@ export const Tower: React.FC = () => {
                             Click Me!
                         </div>
                         <Image
-                            src={isFifthSafeOpen ? "/safethreeopen.svg" : "/safethreeclosed.svg"}
+                            src={isFifthSafeOpen ? "/safethreeopen.png" : "/safethreeclosed.png"}
                             alt="Fifth Safe"
                             width={200}
                             height={200}
@@ -444,7 +447,7 @@ export const Tower: React.FC = () => {
                             Click Me!
                         </div>
                         <Image
-                            src={isSixthSafeOpen ? "/safethreeopen.svg" : "/safethreeclosed.svg"}
+                            src={isSixthSafeOpen ? "/safethreeopen.png" : "/safethreeclosed.png"}
                             alt="Sixth Safe"
                             width={200}
                             height={200}
@@ -466,7 +469,7 @@ export const Tower: React.FC = () => {
                             Click Me!
                         </div>
                         <Image
-                            src={isSeventhSafeOpen ? "/safethreeopen.svg" : "/safethreeclosed.svg"}
+                            src={isSeventhSafeOpen ? "/safethreeopen.png" : "/safethreeclosed.png"}
                             alt="Seventh Safe"
                             width={200}
                             height={200}
@@ -479,22 +482,24 @@ export const Tower: React.FC = () => {
             {/* Left Bushes */}
             <div className={styles.leftBushes}>
                 <Image
-                    src="/leftbushes.svg"
+                    src="/leftbushes.png"
                     alt="Left Bushes"
                     width={500}
                     height={300}
                     className={styles.bushImage}
+                    priority
                 />
             </div>
 
             {/* Right Bushes */}
             <div className={styles.rightBushes}>
                 <Image
-                    src="/rightbushes.svg"
+                    src="/rightbushes.png"
                     alt="Right Bushes"
                     width={500}
                     height={300}
                     className={styles.bushImage}
+                    priority
                 />
             </div>
             {/* Modal Overlay for Scrolls */}

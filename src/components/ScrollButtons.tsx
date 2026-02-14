@@ -54,7 +54,7 @@ export const ScrollButtons: React.FC = () => {
                 >
                     <span className={styles.tooltip}>Get CV</span>
                     <Image
-                        src="/scrollclosedbutton.svg"
+                        src="/scrollclosedbutton.png"
                         alt="Get CV"
                         width={100}
                         height={100}
@@ -71,7 +71,7 @@ export const ScrollButtons: React.FC = () => {
                 >
                     <span className={styles.tooltip}>Contact Now</span>
                     <Image
-                        src="/scrollclosedbutton.svg"
+                        src="/scrollclosedbutton.png"
                         alt="Closed Scroll Menu"
                         width={100}
                         height={100}
@@ -91,7 +91,7 @@ export const ScrollButtons: React.FC = () => {
                     onClick={(e) => e.stopPropagation()} // Prevent closing when clicking content
                 >
                     <Image
-                        src="/scrollopenbutton.svg"
+                        src="/scrollopenbutton.png"
                         alt="Open Scroll"
                         width={600}
                         height={800}
@@ -146,7 +146,7 @@ export const ScrollButtons: React.FC = () => {
                         aria-label="Close"
                     >
                         <Image
-                            src="/cross.svg"
+                            src="/cross.png"
                             alt="Close"
                             width={50}
                             height={50}

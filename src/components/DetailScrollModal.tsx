@@ -38,7 +38,7 @@ const DetailScrollModal: React.FC<DetailScrollModalProps> = ({
                 ) : (
                     <>
                         <Image
-                            src="/middetailscroll.svg"
+                            src="/middetailscroll.png"
                             alt="Detail Scroll Desktop"
                             width={600}
                             height={800}
@@ -46,7 +46,7 @@ const DetailScrollModal: React.FC<DetailScrollModalProps> = ({
                             priority
                         />
                         <Image
-                            src="/middetailscroll-mobile.svg"
+                            src="/middetailscroll-mobile.png"
                             alt="Detail Scroll Mobile"
                             width={600}
                             height={800}
@@ -66,7 +66,7 @@ const DetailScrollModal: React.FC<DetailScrollModalProps> = ({
                     aria-label="Close"
                 >
                     <Image
-                        src="/cross.svg"
+                        src="/cross.png"
                         alt="Close"
                         width={50}
                         height={50}
