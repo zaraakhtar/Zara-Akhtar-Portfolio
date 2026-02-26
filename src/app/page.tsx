@@ -11,7 +11,7 @@ export default function Home() {
       <BackgroundMusic />
 
 
-      {/* Tower - scrollable content */}
+      {/* Tower - scrollable content yes */}
       <div className="relative z-10">
         <Tower />
       </div>
